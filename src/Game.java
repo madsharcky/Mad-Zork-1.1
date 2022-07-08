@@ -129,7 +129,7 @@ public class Game {
 				System.out.println();
 				System.out.println("press enter to continue");
 				Scanner input = new Scanner(System.in);
-				String answer = input.nextLine();
+				input.nextLine();
 			} else {
 				System.out.println("You are dead and will soon turn into a zombie yourself.\n");
 				finished = true;
@@ -138,7 +138,7 @@ public class Game {
 		artgen.printTextArt("thx for playing", 16, ASCIIArtGenerator.ASCIIArtFont.ART_FONT_SERIF, "M");
 		System.out.println("press enter to continue");
 		Scanner input = new Scanner(System.in);
-		String answer = input.nextLine();
+		input.nextLine();
 	}
 
 	/**
@@ -163,7 +163,7 @@ public class Game {
 		System.out.println();
 		System.out.println("press enter to continue");
 		Scanner input = new Scanner(System.in);
-		String answer = input.nextLine();
+		input.nextLine();
 	}
 
 	/**
