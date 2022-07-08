@@ -339,7 +339,6 @@ public class Game {
 				currentRoom.killEnemy(currentEnemy);
 				player.setAttackMode(false);
 				returnString = returnString + "\nYour sword finnaly cuts off the monsters head";
-				// TODO change static xp to dynamic per enemy type and level
 				returnString = returnString + player.giveXp(currentEnemy.getLevel() * 30);
 				if (player.getHealth() <= 0) {
 					player.setHealth(1);
@@ -352,7 +351,6 @@ public class Game {
 		}
 	}
 
-	// TODO get all items when there are no enemies left (go once through array)
 	private String exploreRoom() {
 		String returnString = "";
 		currentEnemy = currentRoom.getAnEnemy();

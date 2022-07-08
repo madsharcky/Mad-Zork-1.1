@@ -23,7 +23,6 @@ public class Enemy {
         Ghoul
     }
 
-    // TODO balance enemies
     public Enemy(int level, Enemytype type) {
         this.type = type;
         this.level = level;
@@ -108,7 +107,6 @@ public class Enemy {
 
     private String selectRandomAttackMove() {
         random = new Random();
-        // TODO get more attackMove variation
         switch (type) {
             case OwlbearSkeleton:
                 String attackMovesO[] = {

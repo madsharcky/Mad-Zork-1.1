@@ -20,7 +20,6 @@ public class Player {
     private boolean isFighting;
 
     public Player() {
-        //TODO make different charakterclases with different stats
         level = 1;
         maxhealth = 100 * level;
         health = maxhealth;
