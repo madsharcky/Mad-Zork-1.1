@@ -297,7 +297,7 @@ public class Game {
 	 * @throws Exception
 	 */
 	private String retreat() {
-		String returnString = "";
+		String returnString = "You close your eyes and turn in circles. After a while you start running forward.";
 		String direction = "";
 		int intDirection = getRandomNumber(1, 4);
 		switch (intDirection) {
@@ -318,10 +318,20 @@ public class Game {
 		doorToPass = currentRoom.doorToPass(direction);
 		if (nextRoom == roomWand || nextRoom == null || nextRoom == roomDraussen || nextRoom == roomTreppe
 				|| !doorToPass.getoffen()) {
-			returnString = "you try to run to the " + direction + ", but do not manage to escape";
+					if (player.isAttackMode()){
+						returnString = "you try to run to the " + direction + ", but do not manage to escape";
+					}
+					else{
+						returnString += " You run into a wall. Bravo! I bet there is a better way to go to the next room";
+					}
 		} else {
 			Command command = new Command("go", direction);
-			returnString = returnString + "you run to the " + direction + " to escape the ugly monster";
+			if (player.isAttackMode()){
+				returnString = returnString + "you run to the " + direction + " to escape the ugly monster";
+			}
+			else{
+				returnString += " To your amazament there is no wall to run into.";
+			}
 			returnString += goRoom(command);
 			player.setAttackMode(false);
 		}
