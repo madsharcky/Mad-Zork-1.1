@@ -1,4 +1,3 @@
-//import java.lang.module.ResolutionException;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
@@ -33,50 +32,36 @@ public class Game {
 	private Door doorToPass;
 	private Room roomTreppe, roomDraussen, roomWand;
 	private Room room1, room2, room3, room4, room5, room6, room7, room8, room9, room10, room11, room12, room13, room14,
-			room15, room16, room17, room18, room19, room20;
-	private Room room21, room22, room23, room24, room25;
-	private Door doorDraussent12, door12t8, door12t18, door18t21, door18t14, door14t11, door8t9, door9t3, door3t2,
-			door2t16, door1t4, door4t10, door10t13, door6t20, door6t7;
-	private Door door13t17, door10t15, door16t5, door15t6, door16t1, door20t22, door21t24, door22t24,
-			door17t19, door19tTreppe, door24t25, door25t23, doorWand;
+			room15, room16, room17, room18, room19, room20, room21, room22, room23, room24, room25;
+	private Door doorGeheim, doorNormal, doorWand, door12t18, door18t14, door14t11, door8t9, door9t3, door2t16, door6t20, door13t17, door10t15, door16t1, door21t24, door17t19, door19tTreppe;
 
 	/**
-	 * Create the game and initialise its internal map.
-	 */
+	 * Create the game and initialise its internal map. initialises all the doors and the starting area
+	 * Usage - Game();
+     * @throws Exception
+     */
 	public Game() {
 
 		parser = new Parser();
 		player = new Player();
 
 		// initialise doors
-		doorDraussent12 = new Door(Door.doorType.geheim);
-		door12t8 = new Door(Door.doorType.durchgang);
+		doorNormal = new Door(Door.doorType.tuer);
+		doorGeheim = new Door(Door.doorType.geheim);
+		doorWand = new Door(Door.doorType.wand);
 		door12t18 = new Door(Door.doorType.falle);
-		door18t21 = new Door(Door.doorType.tuer);
+		door6t20 = new Door(Door.doorType.falle);
+		door16t1 = new Door(Door.doorType.falle);
+		door21t24 = new Door(Door.doorType.falle);
+		door2t16 = new Door(Door.doorType.falltuer);
+		door13t17 = new Door(Door.doorType.falltuer);
 		door18t14 = new Door(Door.doorType.abgeschlossen);
 		door14t11 = new Door(Door.doorType.abgeschlossen);
 		door8t9 = new Door(Door.doorType.abgeschlossen);
 		door9t3 = new Door(Door.doorType.abgeschlossen);
-		door3t2 = new Door(Door.doorType.tuer);
-		door2t16 = new Door(Door.doorType.falltuer);
-		door1t4 = new Door(Door.doorType.tuer);
-		door4t10 = new Door(Door.doorType.geheim);
-		door10t13 = new Door(Door.doorType.tuer);
-		door6t20 = new Door(Door.doorType.falle);
-		door6t7 = new Door(Door.doorType.geheim);
-		door13t17 = new Door(Door.doorType.falltuer);
 		door10t15 = new Door(Door.doorType.abgeschlossen);
-		door16t5 = new Door(Door.doorType.tuer);
-		door15t6 = new Door(Door.doorType.tuer);
-		door16t1 = new Door(Door.doorType.falle);
-		door20t22 = new Door(Door.doorType.tuer);
-		door21t24 = new Door(Door.doorType.falle);
-		door22t24 = new Door(Door.doorType.tuer);
 		door17t19 = new Door(Door.doorType.abgeschlossen);
 		door19tTreppe = new Door(Door.doorType.abgeschlossen);
-		door24t25 = new Door(Door.doorType.geheim);
-		door25t23 = new Door(Door.doorType.geheim);
-		doorWand = new Door(Door.doorType.wand);
 
 		// initialize all the starting rooms
 		roomDraussen = new Room(player.getKeys(), 0,
@@ -88,18 +73,20 @@ public class Game {
 				3, player.getLevel(), 0);
 		// initialize all the starting doors and adacent rooms
 		roomDraussen.setExits(roomDraussen, doorWand, roomDraussen, doorWand, roomDraussen, doorWand, room12,
-				doorDraussent12);
+				doorGeheim);
 		roomDraussen.setExplored(true);
 		roomDraussen.setVisited(true);
+		// start game outside
 		currentRoom = roomDraussen;
 		map = new Map(currentRoom);
-		// start game outside
 		currentEnemy = null;
 	}
 
 	/**
-	 * Main play routine. Loops until end of play.
-	 */
+	 * Main play routine. Loops until end of play, when finished is set to true
+     * Usage - play();
+     * @throws Exception
+     */
 	public void play() {
 		printWelcome();
 		while (!finished) {
@@ -119,7 +106,7 @@ public class Game {
 						System.out.println("You manage to dodge the attack");
 					}
 				} else {
-					System.out.println(currentRoom.longDescription());
+					System.out.println(currentRoom.description());
 				}
 				System.out.println();
 				System.out.println("What do you do?");
@@ -143,7 +130,9 @@ public class Game {
 
 	/**
 	 * Print out the opening message for the player.
-	 */
+	 * Usage - printWelcome();
+     * @throws Exception
+     */
 	private void printWelcome() {
 		artgen = new ASCIIArtGenerator();
 		System.out.println();
@@ -167,10 +156,13 @@ public class Game {
 	}
 
 	/**
-	 * Given a command, process (that is: execute) the command.
-	 * If this command ends the game, true is returned, otherwise false is
+	 * Given a command, process (that is: execute) the command and returns a string with the result
 	 * returned.
-	 */
+	 * Usage - processCommand(command);
+	 * @param command - Command
+	 * @return - String
+     * @throws Exception
+     */
 	private String processCommand(Command command) {
 		if (command.isUnknown()) {
 			return "I don't know what you mean...";
@@ -212,6 +204,13 @@ public class Game {
 			return "";
 		}
 	}
+	/**
+	 * Consumes a potion from the player. Returns the resulting action as a string. Implements easterEgg
+	 * Usage - drink(command);
+	 * @param command - Command
+	 * @return - String
+     * @throws Exception
+     */
 	private String drink(Command command){
 		if (command.hasSecondWord()) {
 			if (command.getSecondWord().equals("potion")) {
@@ -254,6 +253,13 @@ public class Game {
 			return "Drink what?";
 		}
 	}
+	/**
+	 * Takes Item from Player and puts it in the room
+	 * Usage - dropItem(command);
+	 * @param command - Command
+	 * @return - String
+     * @throws Exception
+     */
 	private String dropItem(Command command){
 		String returnString = "";
 		if (command.hasSecondWord()) {
@@ -290,7 +296,13 @@ public class Game {
 		}
 		return returnString;
 	}
-
+	/**
+	 * Player selects a random direction and tries to go there.
+	 * Returns the resulting action as a string.
+	 * Usage - retreat();
+	 * @return - String
+     * @throws Exception
+     */
 	private String retreat() {
 		String returnString = "";
 		String direction = "";
@@ -322,12 +334,25 @@ public class Game {
 		}
 		return returnString;
 	}
-
+	/**
+	 * returns a random number between a lower and an upper bound
+	 * Usage - getRandomNumber(12, 20);
+	 * @param lowerBound - int
+	 * @param upperBound - int
+	 * @return - int
+     * @throws Exception
+     */
 	private int getRandomNumber(int lowerBound, int upperBound) {
 		int randomNumber = ThreadLocalRandom.current().nextInt(lowerBound, upperBound + 1);
 		return randomNumber;
 	}
-
+	/**
+	 * Attack an enemy
+	 * Returns the resulting action as a string.
+	 * Usage - attackEnemy();
+	 * @return - String
+     * @throws Exception
+     */
 	private String attackEnemy() {
 		if (player.isAttackMode()) {
 			String returnString = "you swing your sword at the enemy";
@@ -338,11 +363,11 @@ public class Game {
 			} else {
 				currentRoom.killEnemy(currentEnemy);
 				player.setAttackMode(false);
-				returnString = returnString + "\nYour sword finnaly cuts off the monsters head";
+				returnString = returnString + "\nYour sword finnaly cuts off the "+ currentEnemy.getType().toString() +"'s' head";
 				returnString = returnString + player.giveXp(currentEnemy.getLevel() * 30);
 				if (player.getHealth() <= 0) {
 					player.setHealth(1);
-					returnString = returnString + "\n through sheer willpower you manage to barely stay alive";
+					returnString = returnString + "\nthrough sheer willpower you manage to barely stay alive";
 				}
 			}
 			return returnString;
@@ -350,12 +375,17 @@ public class Game {
 			return "there is nothing to attack";
 		}
 	}
-
+	/**
+	 * explores the room. If there are enemies, they will attack you
+	 * Returns the resulting action as a string.
+	 * Usage - exploreRoom();
+	 * @return - String
+     * @throws Exception
+     */
 	private String exploreRoom() {
 		String returnString = "";
 		currentEnemy = currentRoom.getAnEnemy();
-		// no enemies are in the room
-		if (currentEnemy == null) {
+		if (currentEnemy == null) { // no enemies are in the room
 			currentRoom.setExplored(true);
 			Room.Item item = currentRoom.getAnItem();
 			if (item == null) {
@@ -406,17 +436,24 @@ public class Game {
 	}
 
 	/**
-	 * Return out some help information.
-	 */
+	 * Returns some helpful information to the player.
+	 * Usage - printHelp();
+	 * @return - String
+     * @throws Exception
+     */
 	private String printHelp() {
 		return "You will never find the way to the treasure!!\nMuhahahaha!\n\nYour command words are:\n"
 				+ parser.showCommands();
 	}
 
 	/**
-	 * Try to go to one direction. If there is an exit, enter the new
-	 * room, otherwise return a message.
-	 */
+	 * Try to go to one direction.
+	 * Returns the resulting action as a string.
+	 * Usage - goRoom(command);
+	 * @param command - Command
+	 * @return - String
+     * @throws Exception
+     */
 	private String goRoom(Command command) {
 		String returnstring = "";
 		// if there is no second word, we don't know where to go...
@@ -424,7 +461,7 @@ public class Game {
 			return "Go where?\nYour options are:\n" + currentRoom.exitString();
 		} else {
 			String direction = command.getSecondWord();
-			if (direction.equals("back")){
+			if (direction.equals("back")){ // go to the last visited room
 				for (int i = 0; i < currentRoom.getAdjacentRooms().length; i++) {
 					if (currentRoom.getAdjacentRooms()[i] == null || lastRoom == null) {
 						return "there is no turning back";		
@@ -452,16 +489,17 @@ public class Game {
 			}
 			nextRoom = currentRoom.nextRoom(direction);
 			doorToPass = currentRoom.doorToPass(direction);
-
-			// Try to leave current room.
+			// invalid rooms
 			if (nextRoom == roomWand) {
 				return "Like a sims you try to walk into the wall several times until you finally give up and turn around.";
 			} else if (nextRoom == roomDraussen) {
 				return "You really don't want to go there. I'mean its where you come from. Where is the adventure in that?";
 			} else if (nextRoom == null) {
 				return "That is not a valid direction. Directions are:\nnorth, east, south, west and back";
-			} else {
-				if (!doorToPass.getoffen()) {
+			} 
+			// valid rooms
+			else {
+				if (!doorToPass.getoffen()) { //Door is closed
 					System.out.println("This door is closed.");
 					System.out.println("Do you want to open it?");
 					Scanner input = new Scanner(System.in);
@@ -475,7 +513,7 @@ public class Game {
 								return "You can't open the door without a key. you turn around.";
 							} else {
 								doorToPass.openDoor();
-								player.setKeys(player.getKeys() - 1);
+								player.takeKey();
 								returnstring = "You open the door";
 							}
 						}
@@ -485,12 +523,11 @@ public class Game {
 						return "confused on what to do you turn around";
 					}
 				}
-				if (doorToPass.gettype() == Door.doorType.falle) {
-					// check if player gets damage
+				if (doorToPass.gettype() == Door.doorType.falle) { // Door has a trap
 					returnstring = returnstring + "\nThere's a trap!!!!";
 					int evasion = ThreadLocalRandom.current().nextInt(0, player.getDefense() + 1);
 					if (evasion < doorToPass.getSchaden()) {
-						int damage = doorToPass.getSchaden() - evasion;
+						int damage = doorToPass.getSchaden() - evasion; // check if player gets damage
 						player.takeDamage(damage);
 						returnstring = returnstring + "\nyou Take " + damage + " damage";
 						if (player.getHealth() <= 0) {
@@ -502,24 +539,26 @@ public class Game {
 						returnstring = returnstring + "\nYou are lucky and take no damage";
 					}
 				}
-				if (doorToPass.gettype() == Door.doorType.geheim) {
+				if (doorToPass.gettype() == Door.doorType.geheim) { // Door is secret
 					returnstring = returnstring + "\nYou walk right through the wall!";
 				}
-				if (doorToPass.gettype() == Door.doorType.falltuer) {
-					doorToPass.setOffen(false);
+				if (doorToPass.gettype() == Door.doorType.falltuer) { // Door closes behind you
+					doorToPass.closeDoor();
 					returnstring = returnstring + "\nYou hear a loud BANG after you pass throug the door";
 				}
-				if (nextRoom == roomTreppe) {
+				if (nextRoom == roomTreppe) { // Next Room is Victory
 					currentRoom = nextRoom;
 					finished = true;
-					return "";
+					return "Congratulation! you found the way to the cellar.\nAs you walk down, you smell a weird stench rising up. You open The door at the buttom of the stairs and see a huge pile of gold."+
+					"\nfinally I get what I deserve! you shout out and make a small jump of joy. You run towards the money. As soon as you reach it you hear a puff and it all vanishes into thick smoke."+
+					"\n It is dark and you can barely breathe. You try to find the exit but have lost all orientation. You slowly get tired and finally you fall to the ground and into a deep sleep.\n\n"+
+					"Whatever happened to the young knight is unknown until this day. Tales of the knights heroism and greed are still told to this day";
 				} else {
 					currentRoom.setVisited(true);
 					lastRoom = currentRoom;
 					currentRoom = nextRoom;
 					roomNr = currentRoom.getRoomNr();
-					// initialise adjacent rooms and doors
-					switch (roomNr) {
+					switch (roomNr) {// initialise adjacent rooms and doors
 						case 1:
 							if (room16 == null) {
 								room16 = new Room(player.getKeys(), 16,
@@ -531,7 +570,7 @@ public class Game {
 										"Entering, you find yourself in a Chapel, dedicated to Sheela Peryoryl, the Green Sister, with an altarpiece focused on the afterlife. The walls are decorated with dark smears and stains. The floor is made of smooth-sanded granite.",
 										3, player.getLevel(), 3);
 							}
-							room1.setExits(roomWand, doorWand, room16, door16t1, roomWand, doorWand, room4, door1t4);
+							room1.setExits(roomWand, doorWand, room16, door16t1, roomWand, doorWand, room4, doorNormal);
 							break;
 						case 2:
 							if (room16 == null) {
@@ -544,7 +583,7 @@ public class Game {
 										"Entering, you find yourself in a Barn, designed to house and feed camels. The walls are decorated with cracked triangular windows. The floor is made of warm, throbbing flesh.",
 										3, player.getLevel(), 3);
 							}
-							room2.setExits(roomWand, doorWand, room3, door3t2, roomWand, doorWand, room16, door2t16);
+							room2.setExits(roomWand, doorWand, room3, doorNormal, roomWand, doorWand, room16, door2t16);
 							break;
 						case 3:
 							if (room2 == null) {
@@ -557,7 +596,7 @@ public class Game {
 										"Entering, you find yourself in a Storeroom, designed to keep and preserve candles and lantern oil. The walls are decorated with bookshelves with tomes of Angelology. The floor is made of fitted granite flagstones.",
 										3, player.getLevel(), 3);
 							}
-							room3.setExits(roomWand, doorWand, roomWand, doorWand, room9, door9t3, room2, door3t2);
+							room3.setExits(roomWand, doorWand, roomWand, doorWand, room9, door9t3, room2, doorNormal);
 							break;
 						case 4:
 							if (room1 == null) {
@@ -570,7 +609,7 @@ public class Game {
 										"Entering, you find yourself in a Room of sinister and unclear purpose. Various furniture are all oriented towards a weird lifelike sculpture of a winged child in burnished brass. The walls are decorated with a plaque on the wall with the warning: 'The cantharidal hyena shall soon discase to the instance.'. The floor is made of fitted granite flagstones.",
 										3, player.getLevel(), 3);
 							}
-							room4.setExits(roomWand, doorWand, room1, door1t4, room10, door4t10, roomWand, doorWand);
+							room4.setExits(roomWand, doorWand, room1, doorNormal, room10, doorGeheim, roomWand, doorWand);
 							break;
 						case 5:
 							if (room16 == null) {
@@ -578,7 +617,7 @@ public class Game {
 										"Entering, you find yourself in a Workshop, intended for the crafting of electronics. The walls are decorated with illustrations. The main scene is of a krayt dragon and a wyvern embracing an adiaphorism. The action is set in a corrupted dining hall. The piece is formed entirely out of tiny, colored beads.  The floor is made of unsanded rock.",
 										3, player.getLevel(), 3);
 							}
-							room5.setExits(room16, door16t5, roomWand, doorWand, roomWand, doorWand, roomWand, doorWand);
+							room5.setExits(room16, doorNormal, roomWand, doorWand, roomWand, doorWand, roomWand, doorWand);
 							break;
 						case 6:
 							if (room15 == null) {
@@ -596,7 +635,7 @@ public class Game {
 										"Entering, you find yourself in a Kitchen, which has clearly been used to cook with nuts and rice. The walls are decorated with bookshelves with tomes of Abjuration. The floor is made of seated tiles of iron.",
 										3, player.getLevel(), 3);
 							}
-							room6.setExits(room15, door15t6, roomWand, doorWand, room20, door6t20, room7, door6t7);
+							room6.setExits(room15, doorNormal, roomWand, doorWand, room20, door6t20, room7, doorGeheim);
 							break;
 						case 7:
 							if (room6 == null) {
@@ -604,7 +643,7 @@ public class Game {
 										"Entering, you find yourself in a Bathrooms, richly appointed. The walls are decorated with mosaics. The piece is of a xenomorph consumed by hope. The scene occurs in the basement of a smooth building.  The floor is made of smooth-sanded marble.",
 										3, player.getLevel(), 3);
 							}
-							room7.setExits(roomWand, doorWand, room6, door6t7, roomWand, doorWand, roomWand, doorWand);
+							room7.setExits(roomWand, doorWand, room6, doorGeheim, roomWand, doorWand, roomWand, doorWand);
 							break;
 						case 8:
 							if (room9 == null) {
@@ -617,7 +656,7 @@ public class Game {
 										"Entering, you find yourself in a Laboratory, used to develop alchemical material transmutations. The walls are decorated with dark smears and stains. The floor is made of fitted shale bricks.",
 										3, player.getLevel(), 0);
 							}
-							room8.setExits(roomWand, doorWand, room9, door8t9, room12, door12t8, roomWand, doorWand);
+							room8.setExits(roomWand, doorWand, room9, door8t9, room12, doorNormal, roomWand, doorWand);
 							break;
 						case 9:
 							if (room3 == null) {
@@ -648,7 +687,7 @@ public class Game {
 										"Entering, you find yourself in a Office, designed for moneylenders. The walls are decorated with a plaque on the wall with the warning: 'The standard summa shall soon recapitulate to the oligopoly.'. The floor is made of seated tiles of iron.",
 										3, player.getLevel(), 3);
 							}
-							room10.setExits(room4, door4t10, room13, door10t13, room15, door10t15, roomWand, doorWand);
+							room10.setExits(room4, doorGeheim, room13, doorNormal, room15, door10t15, roomWand, doorWand);
 							break;
 						case 11:
 							if (room14 == null) {
@@ -670,7 +709,7 @@ public class Game {
 										"Entering, you find yourself in a Barracks, built to house archers. The walls are decorated with paintings. The main image displays a filial rove. The action is set in a richly decorated operations center. It's signed W.L. The floor is made of smooth-sanded sandstone.",
 										3, player.getLevel(), 3);
 							}
-							room12.setExits(room8, door12t8, roomDraussen, doorDraussent12, room18, door12t18, roomWand,
+							room12.setExits(room8, doorNormal, roomDraussen, doorGeheim, room18, door12t18, roomWand,
 									doorWand);
 							break;
 						case 13:
@@ -685,7 +724,7 @@ public class Game {
 										3, 10, 3);
 							}
 							room13.setExits(roomWand, doorWand, roomWand, doorWand, room17, door13t17, room10,
-									door10t13);
+									doorNormal);
 							break;
 						case 14:
 							if (room11 == null) {
@@ -712,7 +751,7 @@ public class Game {
 										"Entering, you find yourself in a Bathrooms, richly appointed. The walls are decorated with mosaics. The piece is of a xenomorph consumed by hope. The scene occurs in the basement of a smooth building.  The floor is made of smooth-sanded marble.",
 										3, player.getLevel(), 3);
 							}
-							room15.setExits(room10, door10t15, roomWand, doorWand, room6, door15t6, roomWand,
+							room15.setExits(room10, door10t15, roomWand, doorWand, room6, doorNormal, roomWand,
 									doorWand);
 							break;
 						case 16:
@@ -731,7 +770,7 @@ public class Game {
 										"Entering, you find yourself in a Meeting Room, designed for gambling. The walls are decorated with illustrations. The image depicts an affiliation of greed demons assembled in a firing squad, executing a prisoner. The scene takes place in an enclouded operations center. The piece bears small white moons in opposite sides.  The floor is made of rough, solid granite.",
 										3, player.getLevel(), 3);
 							}
-							room16.setExits(roomWand, doorWand, room2, door2t16, room5, door16t5, room1,
+							room16.setExits(roomWand, doorWand, room2, door2t16, room5, doorNormal, room1,
 									door16t1);
 							break;
 						case 17:
@@ -764,7 +803,7 @@ public class Game {
 										"Entering, you find yourself in a Forge, with molds and casts specifically for crafting weapons. The walls are decorated with etchings on Daggers. The main image reveals great psychic battles , all fictional. The piece is outlined in red.  The floor is made of fitted slate flagstones.",
 										3, player.getLevel(), 3);
 							}
-							room18.setExits(room12, door12t18, roomWand, doorWand, room21, door18t21, room14,
+							room18.setExits(room12, door12t18, roomWand, doorWand, room21, doorNormal, room14,
 									door18t14);
 							break;
 						case 19:
@@ -792,7 +831,7 @@ public class Game {
 										"Entering, you find yourself in a Museum, dedicated to relics of the masters of Conjuration. The walls are decorated with decorated tapestries. The piece displays a weeping mezzoloth conversing with a undead tiger. The scene occurs in a windy jungle. A dizzying hypostyle is visible in the distance. The floor is made of fitted red bricks.",
 										3, player.getLevel(), 3);
 							}
-							room20.setExits(room6, door6t20, room22, door20t22, roomWand, doorWand, roomWand,
+							room20.setExits(room6, door6t20, room22, doorNormal, roomWand, doorWand, roomWand,
 									doorWand);
 							break;
 						case 21:
@@ -806,7 +845,7 @@ public class Game {
 										"Entering, you find yourself in a Bathrooms, filthy and crumbling. The walls are decorated with frosted triangular windows. The floor is made of seated tiles of iron.",
 										3, player.getLevel(), 3);
 							}
-							room21.setExits(room18, door18t21, roomWand, doorWand, roomWand, doorWand, room24,
+							room21.setExits(room18, doorNormal, roomWand, doorWand, roomWand, doorWand, room24,
 									door21t24);
 							break;
 						case 22:
@@ -820,8 +859,8 @@ public class Game {
 										"Entering, you find yourself in a Bathrooms, filthy and crumbling. The walls are decorated with frosted triangular windows. The floor is made of seated tiles of iron.",
 										3, player.getLevel(), 3);
 							}
-							room22.setExits(roomWand, doorWand, room24, door22t24, roomWand, doorWand, room20,
-									door20t22);
+							room22.setExits(roomWand, doorWand, room24, doorNormal, roomWand, doorWand, room20,
+									doorNormal);
 							break;
 						case 23:
 							if (room25 == null) {
@@ -830,7 +869,7 @@ public class Game {
 										3, player.getLevel(), 3);
 							}
 							room23.setExits(roomWand, doorWand, roomWand, doorWand, roomWand, doorWand, room25,
-									door24t25);
+									doorGeheim);
 							break;
 						case 24:
 							if (room21 == null) {
@@ -848,8 +887,8 @@ public class Game {
 										"Entering, you find yourself in a Guard Post, with a focus on explosives. The walls are decorated with a plaque on the wall with the epigram: 'Alchemise until the paragenetic self-heal gangrenes.'. The floor is made of rough soil.",
 										3, player.getLevel(), 3);
 							}
-							room24.setExits(roomWand, doorWand, room21, door21t24, room25, door24t25, room22,
-									door22t24);
+							room24.setExits(roomWand, doorWand, room21, door21t24, room25, doorGeheim, room22,
+									doorNormal);
 							break;
 						case 25:
 							if (room23 == null) {
@@ -862,7 +901,7 @@ public class Game {
 										"Entering, you find yourself in a Bathrooms, filthy and crumbling. The walls are decorated with frosted triangular windows. The floor is made of seated tiles of iron.",
 										3, player.getLevel(), 3);
 							}
-							room25.setExits(room24, door24t25, room23, door25t23, roomWand, doorWand, roomWand,
+							room25.setExits(room24, doorGeheim, room23, doorGeheim, roomWand, doorWand, roomWand,
 									doorWand);
 							break;
 					}

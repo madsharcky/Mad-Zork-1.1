@@ -31,7 +31,7 @@ public class Room {
 	private HashMap<String, Entry<Room, Door>> exits; // stores exits of this room.
 	private Enemy enemies[];
 	private Item items[];
-	private int keyAmount;
+	private int playerKeys;
 
 	enum Item {
 		key,
@@ -44,17 +44,24 @@ public class Room {
 	/**
 	 * Create a room described "description". Initially, it has no exits.
 	 * "description" is something like "a kitchen" or "an open court yard".
-	 */
-	public Room(int keyAmount, Integer roomNr, String description, int maxItems, int enemyMaxLevel,
+	 * Usage - Room(1, 12, "This is a kitchen", 3, 20, 1);
+     * @param playerKeys - int
+	 * @param roomNr - int
+     * @param description - String
+	 * @param maxItems - int
+	 * @param enemyMaxLevel - int
+	 * @param maxEnemyamount - int
+     * @throws Exception
+     */
+	public Room(int playerKeys, Integer roomNr, String description, int maxItems, int enemyMaxLevel,
 			int maxEnemyamount) {
 		int randomItemAmount = 0;
 		visited = false;
-		this.keyAmount = keyAmount;
+		this.playerKeys = playerKeys;
 		this.roomNr = roomNr;
 		this.description = description;
 		this.exits = new HashMap<String, Entry<Room, Door>>();
-		//initial room has always 3 items (at least 1 key)
-		if (roomNr == 12){
+		if (roomNr == 12){ //initial room (Room12) has always 3 items (at least 1 key)
 			randomItemAmount = 3;
 		}
 		else{
@@ -70,16 +77,25 @@ public class Room {
 
 	/**
 	 * Put random enemies in the Room
-	 */
-	private void setEnemies(int randomAmount, int maxLevel) {
-		for (int i = 0; i < randomAmount; i++) {
+     * Usage - setEnemies(4, 5);
+	 * @param amount - int
+	 * @param maxLevel - int
+     * @throws Exception
+     */
+	private void setEnemies(int amount, int maxLevel) {
+		for (int i = 0; i < amount; i++) {
 			Enemy.Enemytype enemyType = selectRandomEnemyType();
 			int randomLevel = ThreadLocalRandom.current().nextInt(1, maxLevel + 1);
 			Enemy enemy = new Enemy(randomLevel, enemyType);
 			enemies[i] = enemy;
 		}
 	}
-
+	/**
+	 * returns 1 random enemy type
+     * Usage - selectRandomEnemyType();
+	 * @return - Enemy.Enemytype
+     * @throws Exception
+     */
 	private Enemy.Enemytype selectRandomEnemyType() {
 		random = new Random();
 		Enemy.Enemytype enemyList[] = Enemy.Enemytype.values();
@@ -88,24 +104,32 @@ public class Room {
 
 	/**
 	 * Put random items in the Room
-	 */
-	private void setItems(int randomAmount) {
-		if (randomAmount > 0) {
-			if (keyAmount < 1) {
+	  * Usage - setItems(10);
+	 * @param amount - int
+     * @throws Exception
+     */
+	private void setItems(int amount) {
+		if (amount > 0) {
+			if (playerKeys < 1) {
 				items[0] = Item.key;
-				for (int i = 1; i < randomAmount; i++) {
+				for (int i = 1; i < amount; i++) {
 					Item item = selectRandomItem();
 					items[i] = item;
 				}
 			} else {
-				for (int i = 0; i < randomAmount; i++) {
+				for (int i = 0; i < amount; i++) {
 					Item item = selectRandomItem();
 					items[i] = item;
 				}
 			}
 		}
 	}
-
+	/**
+	 * returns 1 random item
+     * Usage - selectRandomItem();
+	 * @return - Item
+     * @throws Exception
+     */
 	private Item selectRandomItem() {
 		random = new Random();
 		Item itemList[] = Item.values();
@@ -115,7 +139,17 @@ public class Room {
 	/**
 	 * Define the exits of this room. Every direction either leads to
 	 * another room or is null (no exit there).
-	 */
+	 * Usage - setExits(roomWand, doorWand, room16, door16t1, roomWand, doorWand, room4, door1t4);
+     * @param roomNorth - Room
+	 * @param doorNorth - Door
+	 * @param roomEast - Room
+	 * @param doorEast - Door
+	 * @param roomSouth - Room
+	 * @param doorSouth - Door
+	 * @param roomWest - Room
+	 * @param doorWest - Door
+     * @throws Exception
+     */
 	public void setExits(Room roomNorth, Door doorNorth, Room roomEast, Door doorEast, Room roomSouth, Door doorSouth,
 			Room roomWest, Door doorWest) {
 		if (roomNorth != null) {
@@ -133,30 +167,26 @@ public class Room {
 	}
 
 	/**
-	 * Return the description of the room (the one that was defined in the
-	 * constructor).
-	 */
-	public String shortDescription() {
-		return description;
-	}
-
-	/**
-	 * Return a long description of this room, on the form:
-	 * You are in the kitchen.
-	 * Exits: north west
-	 */
-	public String longDescription() {
+	 * Return a description of this room. If the room was visited before, the String starts of with "This looks familiar"
+	 * Usage - description();
+	 * @return - String
+     * @throws Exception
+     */
+	public String description() {
 		if (visited) {
-			return "This looks familiar \n" + description + "\n" + exitString();
+			return "This looks familiar\n\n" + description + "\n" + exitString();
 		} else {
 			return description + "\n" + exitString();
 		}
 	}
 
 	/**
-	 * Return a string describing the room's exits, for example
-	 * "Exits: north west ".
-	 */
+	 * Return a string describing the room's exits, if the room is not explored the return String is 
+	 * "You dont know this room. You need to explore it first"
+	 * Usage - exitString();
+	 * @return - String
+     * @throws Exception
+     */
 	public String exitString() {
 		String returnString = "";
 		if (explored) {
@@ -183,7 +213,12 @@ public class Room {
 		}
 		return returnString;
 	}
-
+	/**
+	 * Return an array of all the adjacent rooms
+	 * Usage - getAdjacentRooms();
+	 * @return - Room[]
+     * @throws Exception
+     */
 	public Room[] getAdjacentRooms() {
 		Room adjacentRooms[] = { nextRoom("north"), nextRoom("east"), nextRoom("south"), nextRoom("west") };
 		return adjacentRooms;
@@ -192,7 +227,9 @@ public class Room {
 	/**
 	 * Return the room that is reached if we go from this room in direction
 	 * "direction". If there is no room in that direction, return null.
-	 */
+	 * Usage - nextRoom();
+	 * @return - Room
+     */
 	public Room nextRoom(String direction) {
 		try {
 			return exits.get(direction).getKey();
@@ -200,7 +237,13 @@ public class Room {
 			return null;
 		}
 	}
-
+	/**
+	 * Return the door wich lies in a given direction
+	 * If there is no door in that direction, return null.
+	 * Usage - doorToPass(door2t7);
+	 * @param direction - String
+	 * @return - Door
+     */
 	public Door doorToPass(String direction) {
 		try {
 			return exits.get(direction).getValue();
@@ -208,7 +251,12 @@ public class Room {
 			return null;
 		}
 	}
-
+	/**
+	 * Returns 1 random enemy from the room. If there are no enemies left, return null
+	 * Usage - getAnEnemy();
+	 * @return - Enemy
+     * @throws Exception
+     */
 	public Enemy getAnEnemy() {
 		if (enemies.length > 0) {
 			random = new Random();
@@ -217,7 +265,12 @@ public class Room {
 			return null;
 		}
 	}
-
+	/**
+	 * remove Enemy from room
+	 * Usage - killEnemy(ghoul);
+	 * @param enemyToKill - Enemy
+     * @throws Exception
+     */
 	public void killEnemy(Enemy enemyToKill) {
 		Enemy tempArray[] = new Enemy[enemies.length - 1];
 
@@ -229,7 +282,12 @@ public class Room {
 		}
 		enemies = tempArray;
 	}
-
+	/**
+	 * returns true if room contains at least 1 item
+	 * Usage - containsItem();
+	 * @return - boolean
+     * @throws Exception
+     */
 	public boolean containsItem(){
 		if (items.length > 0){
 			return true;
@@ -238,6 +296,12 @@ public class Room {
 			return false;
 		}
 	}
+	/**
+	 * returns the firts item in the array
+	 * Usage - getAnItem();
+	 * @return - Room.Item
+     * @throws Exception
+     */
 	public Item getAnItem() {
 		Item itemToReturn = null;
 		if (items.length > 0) {
@@ -254,6 +318,12 @@ public class Room {
 		}
 		return itemToReturn;
 	}
+	/**
+	 * appends an item in the room array
+	 * Usage - giveAnItem(Room.Item.potion);
+	 * @param itemToGive - Room.Item
+     * @throws Exception
+     */
 	public void giveAnItem(Item itemToGive){
 		Item tempArray[] = new Item[items.length + 1];
 		int i = 0;
@@ -264,23 +334,39 @@ public class Room {
 		tempArray[i] = itemToGive;
 		items = tempArray;
 	}
-
+	/**
+	 * returns the number of the room
+	 * Usage - getRoomNr();
+	 * @return - int
+     * @throws Exception
+     */
 	public int getRoomNr() {
 		return roomNr;
 	}
-
-	public boolean isVisited() {
-		return visited;
-	}
-
+	/**
+	 * set if the room is visited
+	 * Usage - setVisited(true);
+	 * @param visited - boolean
+     * @throws Exception
+     */
 	public void setVisited(boolean visited) {
 		this.visited = visited;
 	}
-
+	/**
+	 * set if the room is explored
+	 * Usage - setExplored(true);
+	 * @param explored - boolean
+     * @throws Exception
+     */
 	public void setExplored(boolean explored) {
 		this.explored = explored;
 	}
-
+	/**
+	 * returns true if the room is explored
+	 * Usage - isExplored();
+	 * @return - boolean
+     * @throws Exception
+     */
 	public boolean isExplored() {
 		return explored;
 	}

@@ -74,6 +74,15 @@ public class Door {
         offen = true;
     }
     /**
+	 * closes the door so player can not pass through
+     * Usage - closeDoor();
+     * @throws Exception
+     */
+    public void closeDoor() {
+        offen = false;
+    }
+
+    /**
 	 * returns damage if door is a trap. 
      * returns 0 if door is not a trap
      * Usage - openDoor();
@@ -84,6 +93,16 @@ public class Door {
         return schaden;
     }
     /**
+	 * returns the type of the door
+     * Usage - gettype();
+     * @return - Door.doorType
+     * @throws Exception
+     */
+    public doorType gettype(){
+        return type;
+    }
+
+    /**
 	 * returns true if door is visible. 
      * returns false if door is invisile.
      * Usage - isSichtbar();
@@ -93,13 +112,14 @@ public class Door {
     public boolean isSichtbar() {
         return sichtbar;
     }
-    public doorType gettype(){
-        return type;
-    }
+    /**
+	 * returns true if door is open
+     * returns flase if door is closed
+     * Usage - getoffen();
+     * @return - boolean
+     * @throws Exception
+     */
     public boolean getoffen(){
         return offen;
-    }
-    public void setOffen(boolean offen) {
-        this.offen = offen;
     }
 }
