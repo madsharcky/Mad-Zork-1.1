@@ -32,7 +32,11 @@ public class Command {
 	 * Create a command object. First and second word must be supplied, but
 	 * either one (or both) can be null. The command word should be null to
 	 * indicate that this was a command that is not recognised by this game.
-	 */
+     * Usage - pCommand("firstWord", "secondWord");
+     * @param firstWord - String
+     * @param secondWord - String
+     * @throws Exception
+     */
 	public Command(String firstWord, String secondWord) {
 		this.commandWord = firstWord;
 		this.secondWord = secondWord;
@@ -41,7 +45,10 @@ public class Command {
 	/**
 	 * Return the command word (the first word) of this command. If the command
 	 * was not understood, the result is null.
-	 */
+     * Usage - getCommandWord();
+	 * @return - String
+     * @throws Exception
+     */
 	public String getCommandWord() {
 		return commandWord;
 	}
@@ -49,25 +56,42 @@ public class Command {
 	/**
 	 * Return the second word of this command. Returns null if there was no
 	 * second word.
-	 */
+     * Usage - getSecondWord();
+	 * @return - String
+     * @throws Exception
+     */
 	public String getSecondWord() {
 		return secondWord;
 	}
 
 	/**
 	 * Return true if this command was not understood.
-	 */
+     * Usage - isUnknown();
+	 * @return - boolean
+     * @throws Exception
+     */
 	public boolean isUnknown() {
 		return (commandWord == null);
 	}
 
 	/**
 	 * Return true if the command has a second word.
-	 */
+     * Usage - hasSecondWord();
+	 * @return - boolean
+     * @throws Exception
+     */
 	public boolean hasSecondWord() {
 		return (secondWord != null);
 	}
-	// to adjust command in the heat of battle
+	/**
+	 * Adjust the command object. First and second word must be supplied, but
+	 * either one (or both) can be null. The command word should be null to
+	 * indicate that this was a command that is not recognised by this game.
+     * Usage - setCommand("firstWord", "secondWord");
+     * @param firstWord - String
+     * @param secondWord - String
+     * @throws Exception
+     */
 	public void setCommand(String firstWord, String secondWord){
 		this.commandWord = firstWord;
 		this.secondWord = secondWord;

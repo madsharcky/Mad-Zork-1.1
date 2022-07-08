@@ -19,7 +19,12 @@ public class Door {
     private int schaden;
     private boolean sichtbar;
     private doorType type;
-
+	/**
+	 * Create a Door object. Doortype must be supplied
+     * Usage - Door(Door.doorType.tuer);
+     * @param type - Door.doorType
+     * @throws Exception
+     */
     public Door(doorType type){
         this.type = type;
         switch(type){
@@ -60,13 +65,31 @@ public class Door {
                 break;
         }
     }
-    // implement taking key from player
+	/**
+	 * open the door so player can pass through
+     * Usage - openDoor();
+     * @throws Exception
+     */
     public void openDoor(){
         offen = true;
     }
+    /**
+	 * returns damage if door is a trap. 
+     * returns 0 if door is not a trap
+     * Usage - openDoor();
+     * @return - int
+     * @throws Exception
+     */
     public int getSchaden() {
         return schaden;
     }
+    /**
+	 * returns true if door is visible. 
+     * returns false if door is invisile.
+     * Usage - isSichtbar();
+     * @return - boolean
+     * @throws Exception
+     */
     public boolean isSichtbar() {
         return sichtbar;
     }
