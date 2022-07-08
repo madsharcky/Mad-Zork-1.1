@@ -20,14 +20,14 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Game {
 
-	private boolean finished = false;
+	private boolean finished, retreat;
 	private Map map;
 	private ASCIIArtGenerator artgen;
 	private Parser parser;
 	private Player player;
 	private Room currentRoom;
 	private Enemy currentEnemy;
-	private int roomNr, alcoholSips = 0;
+	private int roomNr, alcoholSips;
 	private Room nextRoom, lastRoom;
 	private Door doorToPass;
 	private Room roomTreppe, roomDraussen, roomWand;
@@ -44,9 +44,11 @@ public class Game {
 	 * @throws Exception
 	 */
 	public Game() {
-
+		finished = false;
 		parser = new Parser();
 		player = new Player();
+		retreat= false;
+		alcoholSips = 0;
 
 		// initialise doors
 		doorNormal = new Door(Door.doorType.tuer);
@@ -331,11 +333,12 @@ public class Game {
 		} else {
 			Command command = new Command("go", direction);
 			if (player.isAttackMode()){
-				returnString = returnString + "you run to the " + direction + " to escape the ugly monster";
+				returnString = "you run to the " + direction + " to escape the ugly monster";
 			}
 			else{
 				returnString += " To your amazament there is no wall to run into.";
 			}
+			retreat = true;
 			returnString += goRoom(command);
 			player.setAttackMode(false);
 		}
@@ -475,9 +478,10 @@ public class Game {
 	private String goRoom(Command command) {
 		String returnstring = "";
 		// if there is no second word, we don't know where to go...
-		if (player.isAttackMode()) {
+		if (player.isAttackMode() && !retreat) {
 			return "If you want to run like a chicken, you should use the command 'retreat'";
 		} else {
+			retreat = false;
 			if (!command.hasSecondWord()) {
 				return "Go where?\nYour options are:\n" + currentRoom.exitString();
 			} else {
