@@ -5,8 +5,8 @@
  */
 public class MadZork {
 	/**
-	 * @param args
 	 * Hauptprogramm des Zork Game
+	 * @param args
 	 */
 	public static void main(String[] args) {
 		Game game = new Game();

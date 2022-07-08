@@ -19,6 +19,11 @@ public class Player {
     private int xp;
     private boolean isFighting;
 
+	/**
+	 * Create a player object. It starts with level 1, no items and 4 carry slots
+     * Usage - Player();
+     * @throws Exception
+     */
     public Player() {
         level = 1;
         maxhealth = 100 * level;
@@ -26,11 +31,16 @@ public class Player {
         attack = 20 * level;
         defense = 10 * level;
         keys = 0;
-        potions = 1;
+        potions = 0;
         money = 0;
         carryCapacity = 3 + level;
     }
-
+	/**
+	 * gives the player a level-up and adjusts all the stats accordingly. it returns a String with the level up text
+     * Usage - giveLevel();
+	 * @return - String
+     * @throws Exception
+     */
     private String giveLevel() {
         level++;
         attack = 20 * level;
@@ -40,63 +50,124 @@ public class Player {
         carryCapacity = 3 + level;
         return "\nLevel up!\nYou are now level " + level;
     }
-
+	/**
+	 * returns a random number between a lower and an upper bound
+     * Usage - getRandomNumber(0, 20);
+     * @param lowerBound -int
+     * @param upperBound -int
+	 * @return - int
+     * @throws Exception
+     */
     private int getRandomNumber(int lowerBound, int upperBound) {
         int randomNumber = ThreadLocalRandom.current().nextInt(lowerBound, upperBound + 1);
         return randomNumber;
     }
 
+	/**
+	 * returns if the player is in attackmode or not
+     * Usage - isAttackMode();
+	 * @return - boolean
+     * @throws Exception
+     */
     public boolean isAttackMode() {
         return isFighting;
     }
-
+    /**
+	 * set the attack mode of the player
+     * Usage - setAttackMode(true);
+	 * @param attackMode - boolean
+     * @throws Exception
+     */
     public void setAttackMode(boolean attackMode) {
         this.isFighting = attackMode;
     }
-
+	/**
+	 * returns the level of the player
+     * Usage - getLevel();
+	 * @return - int
+     * @throws Exception
+     */
     public int getLevel() {
         return level;
     }
-
+	/**
+	 * returns the health of the player
+     * Usage - getHealth();
+	 * @return - int
+     * @throws Exception
+     */
     public int getHealth() {
         return health;
     }
-
+	/**
+	 * sets the health of the player
+     * Usage - setHealth();
+	 * @param health - int
+     * @throws Exception
+     */
     public void setHealth(int health) {
         this.health = health;
     }
-
-    public void makeMaxHealth() {
-        health = maxhealth;
+	/**
+	 * damage the player
+     * Usage - takeDamage(99);
+	 * @param damage - int
+     * @throws Exception
+     */
+    public void takeDamage(Integer damage) {
+        health = health - damage;
     }
-
-    public void takeDamage(Integer hp) {
-        health = health - hp;
-    }
-
+	/**
+	 * returns the attack stat of the player
+     * Usage - getAttack();
+	 * @return - int
+     * @throws Exception
+     */
     public int getAttack() {
         return attack;
     }
-
+	/**
+	 * returns the defense stat of the player
+     * Usage - getDefense();
+	 * @return - int
+     * @throws Exception
+     */
     public int getDefense() {
         return defense;
     }
-
-    public int getMaxhealth() {
-        return maxhealth;
-    }
-
+	/**
+	 * returns the amount of keys a player posesses
+     * Usage - getKeys();
+	 * @return - int
+     * @throws Exception
+     */
     public int getKeys() {
         return keys;
     }
-
-    public void setKeys(int keys) {
-        this.keys = keys;
+	/**
+	 * removes 1 key from the player
+     * Usage - takeKey();
+     * @throws Exception
+     */
+    public void takeKey() {
+        keys--;
     }
-
+	/**
+	 * returns the amount of potions a player posesses
+     * Usage - getPotions();
+	 * @return - int
+     * @throws Exception
+     */
     public int getPotions() {
         return potions;
     }
+	/**
+	 * takes an item from the player and returns it. If the player does not have the item, it returns null
+     * Usage - dropItem(Room.Item.keys);
+     * @param item - Room.Item
+	 * @return - Room.Item
+     * @throws Exception
+     */
     public Room.Item dropItem(Room.Item item){
         if (item == Room.Item.key){
             if (keys > 0){
@@ -120,63 +191,12 @@ public class Player {
             return null;
         }
     }
-
-    public void givePotion() {
-        potions = potions + 1;
-    }
-
-    public boolean drinkPotion() {
-        if (potions > 0) {
-            health = maxhealth;
-            potions = potions - 1;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public int getMoney() {
-        return money;
-    }
-
-    public void giveMoney(int amount) {
-        money = money + amount;
-    }
-
-    public int getXp() {
-        return xp;
-    }
-
-    public String giveXp(int amount) {
-        String returnString = "\nYou get " + amount + "xp";
-        xp = xp + amount;
-        if (xp > level * 100) {
-            xp = xp - level * 100;
-            returnString = returnString + giveLevel();
-        }
-        return returnString;
-    }
-
-    public String getStats() {
-        int xpToLevelUp = (level * 100) - xp;
-        int carrySlots = keys + potions;
-        String text = "";
-        text = text + "health: " + health + "/" + maxhealth;
-        text = text + "\t\tkeys: " + keys;
-        text = text + "\t\tpotions: " + potions;
-        text = text + "\tcarry capacity: " + carrySlots +"/"+carryCapacity;
-        text = text + "\t\tmoney: " + money;
-        text = text + "\t\tlevel: " + level;
-        text = text + "\txp until next level: " + xpToLevelUp;
-        if (isAttackMode()){
-            text += "\nCommands: attack, drink potion, retreat";
-        }
-        else{
-            text += "\nCommands: go, explore, map, quit";
-        }
-        return text;
-    }
-
+    /**
+	 * gives an item to the player. If the player does not know the item, nothing happens
+     * Usage - dropItem(Room.Item.keys);
+     * @param item - Room.Item
+     * @throws Exception
+     */
     public void giveItem(Room.Item item) {
         switch (item) {
             case key:
@@ -197,17 +217,84 @@ public class Player {
         }
 
     }
-
-    public int defend(int attackToParry) {
+    /**
+	 * the player consumes a potion and gets max hp. returns false if no potions are avalable
+     * Usage - drinkPotion();
+     * @return - boolean
+     * @throws Exception
+     */
+    public boolean drinkPotion() {
+        if (potions > 0) {
+            health = maxhealth;
+            potions = potions - 1;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+	 * gives the player xp. When enough xp is accumulated a level-up is done
+     * Usage - giveXp(29);
+     * @param amount - int
+     * @return -String
+     * @throws Exception
+     */
+    public String giveXp(int amount) {
+        String returnString = "\nYou get " + amount + "xp";
+        xp = xp + amount;
+        if (xp > level * 100) {
+            xp = xp - level * 100;
+            returnString = returnString + giveLevel();
+        }
+        return returnString;
+    }
+    /**
+	 * returns all the player stats as a string
+     * Usage - getStats();
+     * @return -String
+     * @throws Exception
+     */
+    public String getStats() {
+        int xpToLevelUp = (level * 100) - xp;
+        int carrySlots = keys + potions;
+        String text = "";
+        text = text + "health: " + health + "/" + maxhealth;
+        text = text + "\t\tkeys: " + keys;
+        text = text + "\t\tpotions: " + potions;
+        text = text + "\tcarry capacity: " + carrySlots +"/"+carryCapacity;
+        text = text + "\t\tmoney: " + money;
+        text = text + "\t\tlevel: " + level;
+        text = text + "\txp until next level: " + xpToLevelUp;
+        if (isAttackMode()){
+            text += "\n\nUsefull commands: attack, drink potion, retreat";
+        }
+        else{
+            text += "\n\nUsefull commands: go, explore, map, quit";
+        }
+        return text;
+    }
+    /**
+	 * returns the damage taken after defending
+     * Usage - defend(20);
+     * @param attackDamage - int
+     * @return -int
+     * @throws Exception
+     */
+    public int defend(int attackDamage) {
         int damage = 0;
-        int parrychance = getRandomNumber(level, defense);
-        if (parrychance < attackToParry) {
-            damage = attackToParry - parrychance;
+        int defense = getRandomNumber(level, this.defense);
+        if (defense < attackDamage) {
+            damage = attackDamage - defense;
             health = health - damage;
         }
         return damage;
     }
-    
+    /**
+	 * returns the remaining carry capacity
+     * Usage - getRemainingCarryCapacity();
+     * @return -int
+     * @throws Exception
+     */
     public int getRemainingCarryCapacity() {
         return carryCapacity - keys - potions;
     }

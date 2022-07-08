@@ -14,6 +14,7 @@ public class Enemy {
     private int health;
     private int attack;
     private int defense;
+    private boolean firstAttack;
 
     enum Enemytype {
         OwlbearSkeleton,
@@ -23,9 +24,18 @@ public class Enemy {
         Ghoul
     }
 
+    /**
+     * Create an Enemy object. The Level end the type of the enemy must be supplied
+     * Usage - Enemy(2, Enemy.Enemytype.Ghoul);
+     * 
+     * @param level - int
+     * @param type  - Enemy.Enemytype
+     * @throws Exception
+     */
     public Enemy(int level, Enemytype type) {
         this.type = type;
         this.level = level;
+        firstAttack = true;
         switch (type) {
             case OwlbearSkeleton:
                 health = 50 * level;
@@ -55,56 +65,28 @@ public class Enemy {
         }
     }
 
+    /**
+     * Return a random number between a lower and an upper bound
+     * Usage - getRandomNumber(2, 10);
+     * 
+     * @param lowerBound - int
+     * @param upperBound - int
+     * @return - int
+     * @throws Exception
+     */
     private int getRandomNumber(int lowerBound, int upperBound) {
         int randomNumber = ThreadLocalRandom.current().nextInt(lowerBound, upperBound + 1);
         return randomNumber;
     }
 
-    public Enemytype getType() {
-        return type;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public int getAttack() {
-        return attack;
-    }
-
-    public int getDefense() {
-        return defense;
-    }
-
-    // returns damage
-    public int attack(int defenseToOvercome) {
-        int hitchance = getRandomNumber(level, attack);
-        if (hitchance > defenseToOvercome) {
-            return attack;
-        } else {
-            return 0;
-        }
-    }
-
-    // returns the done damage
-    public int defend(int attackToParry) {
-        int damage = 0;
-        int parrychance = getRandomNumber(level, defense);
-        if (parrychance < attackToParry) {
-            damage = attackToParry - parrychance;
-            health = health - damage;
-        }
-        return damage;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
+    /**
+     * Return a random string from an array of attackmoves. the type is selected
+     * automatically
+     * Usage - selectRandomAttackMove();
+     * 
+     * @return - String
+     * @throws Exception
+     */
     private String selectRandomAttackMove() {
         random = new Random();
         switch (type) {
@@ -147,30 +129,129 @@ public class Enemy {
         return "";
     }
 
+    /**
+     * Return the type of the enemy
+     * Usage - getType();
+     * 
+     * @return - Enemy.Enemytype
+     * @throws Exception
+     */
+    public Enemytype getType() {
+        return type;
+    }
+
+    /**
+     * Return the health of the enemy
+     * Usage - getHealth();
+     * 
+     * @return - int
+     * @throws Exception
+     */
+    public int getHealth() {
+        return health;
+    }
+
+    /**
+     * Return the attack stats of the enemy
+     * Usage - getAttack();
+     * 
+     * @return - int
+     * @throws Exception
+     */
+    public int getAttack() {
+        return attack;
+    }
+
+    /**
+     * Return the attack damage of the enemy after it was probed against the
+     * defenders defence
+     * Usage - attack(10);
+     * 
+     * @param defenseToOvercome - int
+     * @return - int
+     * @throws Exception
+     */
+    public int attack(int defenseToOvercome) {
+        int hitchance = getRandomNumber(level, attack);
+        if (hitchance > defenseToOvercome) {
+            return attack;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * Return the attack damage done after it was probed against the monsters
+     * defence
+     * Usage - defend(10);
+     * 
+     * @param attackToParry - int
+     * @return - int
+     * @throws Exception
+     */
+    public int defend(int attackToParry) {
+        int damage = 0;
+        int parrychance = getRandomNumber(level, defense);
+        if (parrychance < attackToParry) {
+            damage = attackToParry - parrychance;
+            health = health - damage;
+        }
+        return damage;
+    }
+
+    /**
+     * Return the level of the monster
+     * Usage - getLevel();
+     * 
+     * @return - int
+     * @throws Exception
+     */
+    public int getLevel() {
+        return level;
+    }
+
+    /**
+     * Return the attackmove of the monster
+     * Usage - getAttackMove();
+     * 
+     * @return - String
+     * @throws Exception
+     */
     public String getAttackMove() {
         String returnString = "";
         switch (type) {
             case OwlbearSkeleton:
-                returnString = "The " + type.toString() + " runs towards you.\n";
+                if (firstAttack) {
+                    firstAttack=false;
+                    returnString = "The " + type.toString() + " runs towards you.\n";
+                }
                 break;
             case WolfSkeleton:
-                returnString = "The " + type.toString() + " runs towards you.\n";
-
+                if (firstAttack) {
+                    firstAttack=false;
+                    returnString = "The " + type.toString() + " runs towards you.\n";
+                }
                 break;
             case BugbearZombie:
-                returnString = "The " + type.toString()
-                        + " walks towards you. It wears an iron armor and weilds a huge axe\n";
-
+                if (firstAttack) {
+                    firstAttack=false;
+                    returnString = "The " + type.toString()
+                            + " walks towards you. It wears an iron armor and weilds a huge axe\n";
+                }
                 break;
             case HumanZombie:
-                returnString = "The " + type.toString()
-                        + " slowly walks towards you. You have the impression that you know the person it once was\n";
-
+                if (firstAttack) {
+                    firstAttack=false;
+                    returnString = "The " + type.toString()
+                            + " slowly walks towards you. You have the impression that you know the person it once was\n";
+                }
                 break;
             case Ghoul:
-                returnString = "The " + type.toString()
-                        + " runds towards you. It seems to have some inteligence but is overwhelmed by its hunger\n";
-
+                if (firstAttack) {
+                    firstAttack=false;
+                    returnString = "The " + type.toString()
+                            + " runds towards you. It seems to have some inteligence but is overwhelmed by its hunger\n";
+                }
                 break;
         }
         return returnString + selectRandomAttackMove();

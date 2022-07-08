@@ -12,7 +12,13 @@ public class Map {
     private ArrayList<Integer> yKoordinaten;
     private Room currentRoom, room;
     private int xKoordinate, yKoordinate;
-
+	/**
+	 * Create a Map object. it needs the room the player is in, as a starting point for the map.
+     * It creates 3 lists with equal indexes. A list to sotre the room, one for the x-coordinates and one for the y-coordinates
+     * Usage - Map(Room14);
+     * @param startingRoom - Room
+     * @throws Exception
+     */
     public Map(Room startingRoom) {
         roomList = new ArrayList<Room>();
         xKoordinaten = new ArrayList<Integer>();
@@ -24,7 +30,51 @@ public class Map {
         xKoordinaten.add(xKoordinate);
         yKoordinaten.add(yKoordinate);
     }
+    /**
+	 * Saves the coordinates of the room in the variables yKoordinate and xKoordinate
+     * Usage - koordinatenBerechnen(Room14);
+     * @param roomToAdd - Room
+     * @throws Exception
+     */
+    private void koordinatenBerechnen(Room roomToAdd) {
+        // current room koordinaten
+        for (int i = 0; i < roomList.size(); i++) {
+            room = roomList.get(i);
+            if (room.equals(currentRoom)) {
+                xKoordinate = xKoordinaten.get(i);
+                yKoordinate = yKoordinaten.get(i);
+            }
+        }
+        for (int i = 0; i < roomToAdd.getAdjacentRooms().length; i++) {
+            if (roomToAdd.getAdjacentRooms()[i] == null) {
 
+            } else {
+                if (roomToAdd.getAdjacentRooms()[i].equals(currentRoom)) {
+                    switch (i) {
+                        case 0: // north
+                            yKoordinate = yKoordinate + 3;
+                            break;
+                        case 1: // east
+                            xKoordinate = xKoordinate - 3;
+                            break;
+                        case 2: // south
+                            yKoordinate = yKoordinate - 3;
+                            break;
+                        case 3: // west
+                            xKoordinate = xKoordinate + 3;
+                            break;
+                    }
+                }
+            }
+        }
+    }
+	/**
+	 * Return a string containing the map and the legend at the bottom
+     * Usage - showMap(Room8);
+     * @param roomPlayerIsIn - Room
+	 * @return - String
+     * @throws Exception
+     */
     public String showMap(Room roomPlayerIsIn) {
         String returnString = "";
         boolean roomFound = true;
@@ -294,12 +344,13 @@ public class Map {
         returnString += "X - you are here\t$ - there is at least 1 item in the room\t/ - Door";
         return returnString;
     }
-
+	/**
+	 * add a Room to the map. The room needs to be adjacent to a room which is already on the map
+     * Usage - addRoom(room6);
+	 * @param roomToAdd - Room
+     * @throws Exception
+     */
     public void addRoom(Room roomToAdd) {
-        addKoordinate(roomToAdd);
-    }
-
-    private void addKoordinate(Room roomToAdd) {
         if (roomList.isEmpty()) {
             roomList.add(roomToAdd);
             xKoordinaten.add(xKoordinate);
@@ -313,39 +364,6 @@ public class Map {
                 yKoordinaten.add(yKoordinate);
             }
             currentRoom = roomToAdd;
-        }
-    }
-
-    private void koordinatenBerechnen(Room roomToAdd) {
-        // current room koordinaten
-        for (int i = 0; i < roomList.size(); i++) {
-            room = roomList.get(i);
-            if (room.equals(currentRoom)) {
-                xKoordinate = xKoordinaten.get(i);
-                yKoordinate = yKoordinaten.get(i);
-            }
-        }
-        for (int i = 0; i < roomToAdd.getAdjacentRooms().length; i++) {
-            if (roomToAdd.getAdjacentRooms()[i] == null) {
-
-            } else {
-                if (roomToAdd.getAdjacentRooms()[i].equals(currentRoom)) {
-                    switch (i) {
-                        case 0: // north
-                            yKoordinate = yKoordinate + 3;
-                            break;
-                        case 1: // east
-                            xKoordinate = xKoordinate - 3;
-                            break;
-                        case 2: // south
-                            yKoordinate = yKoordinate - 3;
-                            break;
-                        case 3: // west
-                            xKoordinate = xKoordinate + 3;
-                            break;
-                    }
-                }
-            }
         }
     }
 }
