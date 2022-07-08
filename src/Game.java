@@ -279,7 +279,11 @@ public class Game {
 					currentRoom.giveAnItem(Room.Item.key);
 					returnString = "you have dropped a key";
 				}
-			} else {
+			} 
+			else if (command.getSecondWord().equals("money")){
+				returnString = "are you crazy??????? how could you even suggest to throw away money?";
+			}
+			else {
 				returnString = "You can't drop that";
 			}
 		} else {
@@ -416,14 +420,15 @@ public class Game {
 					String answer = input.next();
 					if (answer.equals("yes")) {
 						if (item == Room.Item.gold || item == Room.Item.silver || item == Room.Item.bronze) {
-							returnString = "you take the " + item.toString() + " coin";
+							returnString = "you take the " + item.toString() + " coin and put it in your huge backpack.";
+							player.giveItem(item);
 						} else {
 							if (player.getRemainingCarryCapacity() > 0) {
 								returnString = "you take the " + item.toString();
 								returnString += " and put it in your belt";
 								player.giveItem(item);
 							} else {
-								returnString = "You carry to much. drop a key or potion to free up space";
+								returnString = "You carry too much on your belt. drop a key or potion to free up space";
 								currentRoom.giveAnItem(item);
 							}
 						}
