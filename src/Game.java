@@ -392,7 +392,7 @@ public class Game {
 	}
 
 	/**
-	 * explores the room. If there are enemies, they will attack you
+	 * Explores the room. If there are enemies, they will attack you
 	 * Returns the resulting action as a string.
 	 * Usage - exploreRoom();
 	 * 
@@ -411,39 +411,7 @@ public class Game {
 				if (item == null) {
 					returnString = "there is nothing more to find here";
 				} else {
-					if (item == Room.Item.gold || item == Room.Item.silver || item == Room.Item.bronze) {
-						returnString = "you have found a " + item.toString() + " coin";
-					} else {
-						returnString = "you have found a " + item.toString();
-					}
-					returnString += "\nDo you want to pick it up?";
-					System.out.println(returnString);
-					Scanner input = new Scanner(System.in);
-					System.out.print(">");
-					String answer = input.next();
-					if (answer.equals("yes")) {
-						if (item == Room.Item.gold || item == Room.Item.silver || item == Room.Item.bronze) {
-							returnString = "you take the " + item.toString() + " coin and put it in your huge backpack.";
-							player.giveItem(item);
-						} else {
-							if (player.getRemainingCarryCapacity() > 0) {
-								returnString = "you take the " + item.toString();
-								returnString += " and put it in your belt";
-								player.giveItem(item);
-							} else {
-								returnString = "You carry too much on your belt. drop a key or potion to free up space";
-								currentRoom.giveAnItem(item);
-							}
-						}
-					} else {
-						if (item == Room.Item.gold || item == Room.Item.silver || item == Room.Item.bronze) {
-							returnString = "you leave the " + item.toString() + " coin";
-						} else {
-							returnString = "you leave the " + item.toString();
-						}
-						returnString += " where it lies";
-						currentRoom.giveAnItem(item);
-					}
+					returnString = player.giveItem(item, currentRoom);
 				}
 			} else {
 				player.setAttackMode(true);
@@ -586,7 +554,7 @@ public class Game {
 						lastRoom = currentRoom;
 						currentRoom = nextRoom;
 						if (returnstring == ""){
-							returnstring = "You walk through the door into the next room";
+							returnstring = "\nYou walk through the door into the next room";
 						}
 						roomNr = currentRoom.getRoomNr();
 						switch (roomNr) {// initialise adjacent rooms and doors
