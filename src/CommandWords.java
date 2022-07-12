@@ -15,7 +15,7 @@ public class CommandWords {
 	 * a constant array that holds all valid command words
 	*/
 	private static final String validCommands[] = { "go", "quit", "help", "explore", "drink", "attack", "retreat", "drop", 
-			"map" };
+			"map", "h", "e", "r", "m", "a"  };
 
 	/**
 	 * Constructor - initialise the command words.
@@ -47,7 +47,9 @@ public class CommandWords {
 	public String showAll() {
 		String outputStr = "";
 		for (int i = 0; i < validCommands.length; i++) {
-			outputStr += validCommands[i] + "  ";
+			if (validCommands[i].length()>1){
+				outputStr += validCommands[i] + "  ";
+			}
 		}
 		return outputStr;
 	}

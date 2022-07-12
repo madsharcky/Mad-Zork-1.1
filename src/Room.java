@@ -237,6 +237,18 @@ public class Room {
 	 * @return - Room
      */
 	public Room nextRoom(String direction) {
+		if (direction.equals("up")){
+			direction = "north";
+		}
+		if (direction.equals("right")){
+			direction = "east";
+		}
+		if (direction.equals("down")){
+			direction = "south";
+		}
+		if (direction.equals("left")){
+			direction = "west";
+		}
 		try {
 			return exits.get(direction).getKey();
 		} catch (Exception e) {
@@ -251,6 +263,18 @@ public class Room {
 	 * @return - Door
      */
 	public Door doorToPass(String direction) {
+		if (direction.equals("up")){
+			direction = "north";
+		}
+		if (direction.equals("right")){
+			direction = "east";
+		}
+		if (direction.equals("down")){
+			direction = "south";
+		}
+		if (direction.equals("left")){
+			direction = "west";
+		}
 		try {
 			return exits.get(direction).getValue();
 		} catch (Exception e) {

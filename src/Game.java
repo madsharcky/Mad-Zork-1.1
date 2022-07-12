@@ -177,19 +177,19 @@ public class Game {
 			return "I don't know what you mean...";
 		}
 		String commandWord = command.getCommandWord();
-		if (commandWord.equals("help")) {
+		if (commandWord.equals("help") || commandWord.equals("h")) {
 			return printHelp();
 		} else if (commandWord.equals("drink")) {
 			return drink(command);
 		} else if (commandWord.equals("go")) {
 			return goRoom(command);
-		} else if (commandWord.equals("explore")) {
+		} else if (commandWord.equals("explore") || commandWord.equals("e")) {
 			return exploreRoom();
-		} else if (commandWord.equals("attack")) {
+		} else if (commandWord.equals("attack") || commandWord.equals("a")) {
 			return attackEnemy();
-		} else if (commandWord.equals("retreat")) {
+		} else if (commandWord.equals("retreat") || commandWord.equals("r")) {
 			return retreat();
-		} else if (commandWord.equals("map")) {
+		} else if (commandWord.equals("map") || commandWord.equals("m")) {
 			return map.showMap(currentRoom);
 		} else if (commandWord.equals("drop")) {
 			return dropItem(command);
