@@ -22,7 +22,8 @@ import java.util.Map.Entry;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Room {
-
+	private int randomAmount;
+	private boolean firstTimeHere;
 	private Random random;
 	private String description;
 	private int roomNr;
@@ -55,24 +56,24 @@ public class Room {
      */
 	public Room(int playerKeys, Integer roomNr, String description, int maxItems, int enemyMaxLevel,
 			int maxEnemyamount) {
-		int randomItemAmount = 0;
+		firstTimeHere = true;
 		visited = false;
 		this.playerKeys = playerKeys;
 		this.roomNr = roomNr;
 		this.description = description;
 		this.exits = new HashMap<String, Entry<Room, Door>>();
 		if (roomNr == 12){ //initial room (Room12) has always 3 items (at least 1 key)
-			randomItemAmount = 3;
+			randomAmount = 3;
 		}
 		else{
-			randomItemAmount = ThreadLocalRandom.current().nextInt(0, maxItems + 1);
+			randomAmount = ThreadLocalRandom.current().nextInt(0, maxItems + 1);
 		}
-		items = new Item[randomItemAmount];
-		setItems(randomItemAmount);
+		items = new Item[randomAmount];
+		setItems(randomAmount);
 
-		int randomEnemyAmount = ThreadLocalRandom.current().nextInt(0, maxEnemyamount + 1);
-		enemies = new Enemy[randomEnemyAmount];
-		setEnemies(randomEnemyAmount, enemyMaxLevel);
+		int randomAmount = ThreadLocalRandom.current().nextInt(0, maxEnemyamount + 1);
+		enemies = new Enemy[randomAmount];
+		setEnemies(randomAmount, enemyMaxLevel);
 	}
 
 	/**
@@ -175,8 +176,13 @@ public class Room {
 	public String description() {
 		if (visited) {
 			return "This looks familiar\n\n" + description + "\n" + exitString();
-		} else {
-			return description + "\n" + exitString();
+		} 
+		else if (firstTimeHere){
+			firstTimeHere = false;
+			return "Entering, you find yourself " + description + "\n" + exitString();
+		}
+		else {
+			return "You are " + description + "\n" + exitString();
 		}
 	}
 

@@ -74,7 +74,7 @@ public class Game {
 				0, 1, 0);
 		roomWand = new Room(player.getKeys(), -1, "", 0, 0, 0);
 		room12 = new Room(player.getKeys(), 12,
-				"Entering, you find yourself in a Laboratory, used to develop alchemical material transmutations. The walls are decorated with dark smears and stains. The floor is made of fitted shale bricks.",
+				"in a Laboratory, used to develop alchemical material transmutations. The walls are decorated with dark smears and stains. The floor is made of fitted shale bricks.",
 				3, player.getLevel(), 0);
 		// initialize all the starting doors and adacent rooms
 		roomDraussen.setExits(roomDraussen, doorWand, roomDraussen, doorWand, roomDraussen, doorWand, room12,
@@ -590,12 +590,12 @@ public class Game {
 							case 1:
 								if (room16 == null) {
 									room16 = new Room(player.getKeys(), 16,
-											"Entering, you find yourself in a Workshop, intended for the crafting of electronics. The walls are decorated with illustrations. The main scene is of a krayt dragon and a wyvern embracing an adiaphorism. The action is set in a corrupted dining hall. The piece is formed entirely out of tiny, colored beads.  The floor is made of unsanded rock.",
+											"in a Workshop, intended for the crafting of electronics. The walls are decorated with illustrations. The main scene is of a krayt dragon and a wyvern embracing an adiaphorism. The action is set in a corrupted dining hall. The piece is formed entirely out of tiny, colored beads.  The floor is made of unsanded rock.",
 											3, player.getLevel(), 3);
 								}
 								if (room4 == null) {
 									room4 = new Room(player.getKeys(), 4,
-											"Entering, you find yourself in a Chapel, dedicated to Sheela Peryoryl, the Green Sister, with an altarpiece focused on the afterlife. The walls are decorated with dark smears and stains. The floor is made of smooth-sanded granite.",
+											"in a Chapel, dedicated to Sheela Peryoryl, the Green Sister, with an altarpiece focused on the afterlife. The walls are decorated with dark smears and stains. The floor is made of smooth-sanded granite.",
 											3, player.getLevel(), 3);
 								}
 								room1.setExits(roomWand, doorWand, room16, door16t1, roomWand, doorWand, room4,
@@ -604,12 +604,12 @@ public class Game {
 							case 2:
 								if (room16 == null) {
 									room16 = new Room(player.getKeys(), 16,
-											"Entering, you find yourself in a Workshop, intended for the crafting of electronics. The walls are decorated with illustrations. The main scene is of a krayt dragon and a wyvern embracing an adiaphorism. The action is set in a corrupted dining hall. The piece is formed entirely out of tiny, colored beads.  The floor is made of unsanded rock.",
+											"in a Workshop, intended for the crafting of electronics. The walls are decorated with illustrations. The main scene is of a krayt dragon and a wyvern embracing an adiaphorism. The action is set in a corrupted dining hall. The piece is formed entirely out of tiny, colored beads.  The floor is made of unsanded rock.",
 											3, player.getLevel(), 3);
 								}
 								if (room3 == null) {
 									room3 = new Room(player.getKeys(), 3,
-											"Entering, you find yourself in a Barn, designed to house and feed camels. The walls are decorated with cracked triangular windows. The floor is made of warm, throbbing flesh.",
+											"in a Barn, designed to house and feed camels. The walls are decorated with cracked triangular windows. The floor is made of warm, throbbing flesh.",
 											3, player.getLevel(), 3);
 								}
 								room2.setExits(roomWand, doorWand, room3, doorNormal, roomWand, doorWand, room16,
@@ -618,12 +618,12 @@ public class Game {
 							case 3:
 								if (room2 == null) {
 									room2 = new Room(player.getKeys(), 2,
-											"Entering, you find yourself in a Museum, dedicated to ancient tomes of Theology. The walls are decorated with faded and rotted tapestries. The floor is made of rough soil.",
+											"in a Museum, dedicated to ancient tomes of Theology. The walls are decorated with faded and rotted tapestries. The floor is made of rough soil.",
 											3, player.getLevel(), 3);
 								}
 								if (room9 == null) {
 									room9 = new Room(player.getKeys(), 9,
-											"Entering, you find yourself in a Storeroom, designed to keep and preserve candles and lantern oil. The walls are decorated with bookshelves with tomes of Angelology. The floor is made of fitted granite flagstones.",
+											"in a Storeroom, designed to keep and preserve candles and lantern oil. The walls are decorated with bookshelves with tomes of Angelology. The floor is made of fitted granite flagstones.",
 											3, player.getLevel(), 3);
 								}
 								room3.setExits(roomWand, doorWand, roomWand, doorWand, room9, door9t3, room2,
@@ -632,12 +632,12 @@ public class Game {
 							case 4:
 								if (room1 == null) {
 									room1 = new Room(player.getKeys(), 1,
-											"Entering, you find yourself in a Training Room, focused on mage training. The walls are decorated with bookshelves with texts of Literature. The floor is made of unsanded rock.",
+											"in a Training Room, focused on mage training. The walls are decorated with bookshelves with texts of Literature. The floor is made of unsanded rock.",
 											3, player.getLevel(), 3);
 								}
 								if (room10 == null) {
 									room10 = new Room(player.getKeys(), 10,
-											"Entering, you find yourself in a Room of sinister and unclear purpose. Various furniture are all oriented towards a weird lifelike sculpture of a winged child in burnished brass. The walls are decorated with a plaque on the wall with the warning: 'The cantharidal hyena shall soon discase to the instance.'. The floor is made of fitted granite flagstones.",
+											"in a Room of sinister and unclear purpose. Various furniture are all oriented towards a weird lifelike sculpture of a winged child in burnished brass. The walls are decorated with a plaque on the wall with the warning: 'The cantharidal hyena shall soon discase to the instance.'. The floor is made of fitted granite flagstones.",
 											3, player.getLevel(), 3);
 								}
 								room4.setExits(roomWand, doorWand, room1, doorNormal, room10, doorGeheim, roomWand,
@@ -646,7 +646,7 @@ public class Game {
 							case 5:
 								if (room16 == null) {
 									room16 = new Room(player.getKeys(), 16,
-											"Entering, you find yourself in a Workshop, intended for the crafting of electronics. The walls are decorated with illustrations. The main scene is of a krayt dragon and a wyvern embracing an adiaphorism. The action is set in a corrupted dining hall. The piece is formed entirely out of tiny, colored beads.  The floor is made of unsanded rock.",
+											"in a Workshop, intended for the crafting of electronics. The walls are decorated with illustrations. The main scene is of a krayt dragon and a wyvern embracing an adiaphorism. The action is set in a corrupted dining hall. The piece is formed entirely out of tiny, colored beads.  The floor is made of unsanded rock.",
 											3, player.getLevel(), 3);
 								}
 								room5.setExits(room16, doorNormal, roomWand, doorWand, roomWand, doorWand, roomWand,
@@ -655,17 +655,17 @@ public class Game {
 							case 6:
 								if (room15 == null) {
 									room15 = new Room(player.getKeys(), 15,
-											"Entering, you find yourself in a Office, designed for moneylenders. The walls are decorated with a plaque on the wall with the warning: 'The standard summa shall soon recapitulate to the oligopoly.'. The floor is made of seated tiles of iron.",
+											"in a Office, designed for moneylenders. The walls are decorated with a plaque on the wall with the warning: 'The standard summa shall soon recapitulate to the oligopoly.'. The floor is made of seated tiles of iron.",
 											3, player.getLevel(), 3);
 								}
 								if (room7 == null) {
 									room7 = new Room(player.getKeys(), 7,
-											"Entering, you find yourself in a Storeroom, designed to keep and preserve gold and gems - a treasury. The walls are decorated with bookshelves with texts of Caprine and Ovine Husbandry. The floor is made of warm, throbbing flesh.",
+											"in a Storeroom, designed to keep and preserve gold and gems - a treasury. The walls are decorated with bookshelves with texts of Caprine and Ovine Husbandry. The floor is made of warm, throbbing flesh.",
 											6, player.getLevel(), 3);
 								}
 								if (room20 == null) {
 									room20 = new Room(player.getKeys(), 20,
-											"Entering, you find yourself in a Kitchen, which has clearly been used to cook with nuts and rice. The walls are decorated with bookshelves with tomes of Abjuration. The floor is made of seated tiles of iron.",
+											"in a Kitchen, which has clearly been used to cook with nuts and rice. The walls are decorated with bookshelves with tomes of Abjuration. The floor is made of seated tiles of iron.",
 											3, player.getLevel(), 3);
 								}
 								room6.setExits(room15, doorNormal, roomWand, doorWand, room20, door6t20, room7,
@@ -674,7 +674,7 @@ public class Game {
 							case 7:
 								if (room6 == null) {
 									room6 = new Room(player.getKeys(), 6,
-											"Entering, you find yourself in a Bathrooms, richly appointed. The walls are decorated with mosaics. The piece is of a xenomorph consumed by hope. The scene occurs in the basement of a smooth building.  The floor is made of smooth-sanded marble.",
+											"in a Bathrooms, richly appointed. The walls are decorated with mosaics. The piece is of a xenomorph consumed by hope. The scene occurs in the basement of a smooth building.  The floor is made of smooth-sanded marble.",
 											3, player.getLevel(), 3);
 								}
 								room7.setExits(roomWand, doorWand, room6, doorGeheim, roomWand, doorWand, roomWand,
@@ -683,12 +683,12 @@ public class Game {
 							case 8:
 								if (room9 == null) {
 									room9 = new Room(player.getKeys(), 9,
-											"Entering, you find yourself in a Storeroom, designed to keep and preserve candles and lantern oil. The walls are decorated with bookshelves with tomes of Angelology. The floor is made of fitted granite flagstones.",
+											"in a Storeroom, designed to keep and preserve candles and lantern oil. The walls are decorated with bookshelves with tomes of Angelology. The floor is made of fitted granite flagstones.",
 											3, player.getLevel(), 3);
 								}
 								if (room12 == null) {
 									room12 = new Room(player.getKeys(), 12,
-											"Entering, you find yourself in a Laboratory, used to develop alchemical material transmutations. The walls are decorated with dark smears and stains. The floor is made of fitted shale bricks.",
+											"in a Laboratory, used to develop alchemical material transmutations. The walls are decorated with dark smears and stains. The floor is made of fitted shale bricks.",
 											3, player.getLevel(), 0);
 								}
 								room8.setExits(roomWand, doorWand, room9, door8t9, room12, doorNormal, roomWand,
@@ -697,12 +697,12 @@ public class Game {
 							case 9:
 								if (room3 == null) {
 									room3 = new Room(player.getKeys(), 3,
-											"Entering, you find yourself in a Barn, designed to house and feed camels. The walls are decorated with cracked triangular windows. The floor is made of warm, throbbing flesh.",
+											"in a Barn, designed to house and feed camels. The walls are decorated with cracked triangular windows. The floor is made of warm, throbbing flesh.",
 											3, player.getLevel(), 3);
 								}
 								if (room8 == null) {
 									room8 = new Room(player.getKeys(), 8,
-											"Entering, you find yourself in a Barracks, built to house assassins. The walls are decorated with long, gouged-out claw-marks. The floor is made of fitted shale bricks.",
+											"in a Barracks, built to house assassins. The walls are decorated with long, gouged-out claw-marks. The floor is made of fitted shale bricks.",
 											3, player.getLevel(), 3);
 								}
 								room9.setExits(room3, door9t3, roomWand, doorWand, roomWand, doorWand, room8, door8t9);
@@ -710,17 +710,17 @@ public class Game {
 							case 10:
 								if (room4 == null) {
 									room4 = new Room(player.getKeys(), 4,
-											"Entering, you find yourself in a Chapel, dedicated to Sheela Peryoryl, the Green Sister, with an altarpiece focused on the afterlife. The walls are decorated with dark smears and stains. The floor is made of smooth-sanded granite.",
+											"in a Chapel, dedicated to Sheela Peryoryl, the Green Sister, with an altarpiece focused on the afterlife. The walls are decorated with dark smears and stains. The floor is made of smooth-sanded granite.",
 											3, player.getLevel(), 3);
 								}
 								if (room13 == null) {
 									room13 = new Room(player.getKeys(), 13,
-											"Entering, you find yourself in a Dining hall, built for use by the lowest servants. The walls are decorated with paintings. The image exhibits a squadron of hunter sharks constructing a building. The scene is set in a decrepit kitchen. The piece is formed entirely out of tiny seashells.  The floor is made of rough, solid granite.",
+											"in a Dining hall, built for use by the lowest servants. The walls are decorated with paintings. The image exhibits a squadron of hunter sharks constructing a building. The scene is set in a decrepit kitchen. The piece is formed entirely out of tiny seashells.  The floor is made of rough, solid granite.",
 											3, player.getLevel(), 3);
 								}
 								if (room15 == null) {
 									room15 = new Room(player.getKeys(), 15,
-											"Entering, you find yourself in a Office, designed for moneylenders. The walls are decorated with a plaque on the wall with the warning: 'The standard summa shall soon recapitulate to the oligopoly.'. The floor is made of seated tiles of iron.",
+											"in a Office, designed for moneylenders. The walls are decorated with a plaque on the wall with the warning: 'The standard summa shall soon recapitulate to the oligopoly.'. The floor is made of seated tiles of iron.",
 											3, player.getLevel(), 3);
 								}
 								room10.setExits(room4, doorGeheim, room13, doorNormal, room15, door10t15, roomWand,
@@ -729,7 +729,7 @@ public class Game {
 							case 11:
 								if (room14 == null) {
 									room14 = new Room(player.getKeys(), 14,
-											"Entering, you find yourself in a Training Room, focused on sparring. The walls are decorated with a plaque on the wall with the saying: 'Never turn-down the aviculture.'. The floor is made of fitted sandstone bricks.",
+											"in a Training Room, focused on sparring. The walls are decorated with a plaque on the wall with the saying: 'Never turn-down the aviculture.'. The floor is made of fitted sandstone bricks.",
 											3, 10, 3);
 								}
 								room11.setExits(roomWand, doorWand, room14, door14t11, roomWand, doorWand, roomWand,
@@ -738,12 +738,12 @@ public class Game {
 							case 12:
 								if (room8 == null) {
 									room8 = new Room(player.getKeys(), 8,
-											"Entering, you find yourself in a Barracks, built to house assassins. The walls are decorated with long, gouged-out claw-marks. The floor is made of fitted shale bricks.",
+											"in a Barracks, built to house assassins. The walls are decorated with long, gouged-out claw-marks. The floor is made of fitted shale bricks.",
 											3, player.getLevel(), 3);
 								}
 								if (room18 == null) {
 									room18 = new Room(player.getKeys(), 18,
-											"Entering, you find yourself in a Barracks, built to house archers. The walls are decorated with paintings. The main image displays a filial rove. The action is set in a richly decorated operations center. It's signed W.L. The floor is made of smooth-sanded sandstone.",
+											"in a Barracks, built to house archers. The walls are decorated with paintings. The main image displays a filial rove. The action is set in a richly decorated operations center. It's signed W.L. The floor is made of smooth-sanded sandstone.",
 											3, player.getLevel(), 3);
 								}
 								room12.setExits(room8, doorNormal, roomDraussen, doorGeheim, room18, door12t18,
@@ -753,12 +753,12 @@ public class Game {
 							case 13:
 								if (room10 == null) {
 									room10 = new Room(player.getKeys(), 10,
-											"Entering, you find yourself in a Room of sinister and unclear purpose. Various furniture are all oriented towards a weird lifelike sculpture of a winged child in burnished brass. The walls are decorated with a plaque on the wall with the warning: 'The cantharidal hyena shall soon discase to the instance.'. The floor is made of fitted granite flagstones.",
+											"in a Room of sinister and unclear purpose. Various furniture are all oriented towards a weird lifelike sculpture of a winged child in burnished brass. The walls are decorated with a plaque on the wall with the warning: 'The cantharidal hyena shall soon discase to the instance.'. The floor is made of fitted granite flagstones.",
 											3, player.getLevel(), 3);
 								}
 								if (room17 == null) {
 									room17 = new Room(player.getKeys(), 17,
-											"Entering, you find yourself in a Hospital, clearly designed for an epidemic of mental illness. The walls are decorated with bookshelves with texts of contrition of Corellon, Father of Elves. The floor is made of smooth-sanded granite.",
+											"in a Hospital, clearly designed for an epidemic of mental illness. The walls are decorated with bookshelves with texts of contrition of Corellon, Father of Elves. The floor is made of smooth-sanded granite.",
 											3, 10, 3);
 								}
 								room13.setExits(roomWand, doorWand, roomWand, doorWand, room17, door13t17, room10,
@@ -767,12 +767,12 @@ public class Game {
 							case 14:
 								if (room11 == null) {
 									room11 = new Room(player.getKeys(), 11,
-											"Entering, you find yourself in a Classroom, which once taught Hydrology. There are many desks and chairs. The walls are decorated with a plaque on the wall with the saying: 'The line of the tike shall curve where the pessimal computation fords.'. The floor is made of rough, solid granite.",
+											"in a Classroom, which once taught Hydrology. There are many desks and chairs. The walls are decorated with a plaque on the wall with the saying: 'The line of the tike shall curve where the pessimal computation fords.'. The floor is made of rough, solid granite.",
 											10, player.getLevel(), 3);
 								}
 								if (room18 == null) {
 									room18 = new Room(player.getKeys(), 18,
-											"Entering, you find yourself in a Barracks, built to house archers. The walls are decorated with paintings. The main image displays a filial rove. The action is set in a richly decorated operations center. It's signed W.L. The floor is made of smooth-sanded sandstone.",
+											"in a Barracks, built to house archers. The walls are decorated with paintings. The main image displays a filial rove. The action is set in a richly decorated operations center. It's signed W.L. The floor is made of smooth-sanded sandstone.",
 											3, player.getLevel(), 3);
 								}
 								room14.setExits(roomWand, doorWand, room18, door18t14, roomWand, doorWand, room11,
@@ -781,12 +781,12 @@ public class Game {
 							case 15:
 								if (room10 == null) {
 									room10 = new Room(player.getKeys(), 10,
-											"Entering, you find yourself in a Room of sinister and unclear purpose. Various furniture are all oriented towards a weird lifelike sculpture of a winged child in burnished brass. The walls are decorated with a plaque on the wall with the warning: 'The cantharidal hyena shall soon discase to the instance.'. The floor is made of fitted granite flagstones.",
+											"in a Room of sinister and unclear purpose. Various furniture are all oriented towards a weird lifelike sculpture of a winged child in burnished brass. The walls are decorated with a plaque on the wall with the warning: 'The cantharidal hyena shall soon discase to the instance.'. The floor is made of fitted granite flagstones.",
 											3, player.getLevel(), 3);
 								}
 								if (room6 == null) {
 									room6 = new Room(player.getKeys(), 6,
-											"Entering, you find yourself in a Bathrooms, richly appointed. The walls are decorated with mosaics. The piece is of a xenomorph consumed by hope. The scene occurs in the basement of a smooth building.  The floor is made of smooth-sanded marble.",
+											"in a Bathrooms, richly appointed. The walls are decorated with mosaics. The piece is of a xenomorph consumed by hope. The scene occurs in the basement of a smooth building.  The floor is made of smooth-sanded marble.",
 											3, player.getLevel(), 3);
 								}
 								room15.setExits(room10, door10t15, roomWand, doorWand, room6, doorNormal, roomWand,
@@ -795,17 +795,17 @@ public class Game {
 							case 16:
 								if (room1 == null) {
 									room1 = new Room(player.getKeys(), 1,
-											"Entering, you find yourself in a Training Room, focused on mage training. The walls are decorated with bookshelves with texts of Literature. The floor is made of unsanded rock.",
+											"in a Training Room, focused on mage training. The walls are decorated with bookshelves with texts of Literature. The floor is made of unsanded rock.",
 											3, player.getLevel(), 3);
 								}
 								if (room2 == null) {
 									room2 = new Room(player.getKeys(), 2,
-											"Entering, you find yourself in a Museum, dedicated to ancient tomes of Theology. The walls are decorated with faded and rotted tapestries. The floor is made of rough soil.",
+											"in a Museum, dedicated to ancient tomes of Theology. The walls are decorated with faded and rotted tapestries. The floor is made of rough soil.",
 											3, player.getLevel(), 3);
 								}
 								if (room5 == null) {
 									room5 = new Room(player.getKeys(), 5,
-											"Entering, you find yourself in a Meeting Room, designed for gambling. The walls are decorated with illustrations. The image depicts an affiliation of greed demons assembled in a firing squad, executing a prisoner. The scene takes place in an enclouded operations center. The piece bears small white moons in opposite sides.  The floor is made of rough, solid granite.",
+											"in a Meeting Room, designed for gambling. The walls are decorated with illustrations. The image depicts an affiliation of greed demons assembled in a firing squad, executing a prisoner. The scene takes place in an enclouded operations center. The piece bears small white moons in opposite sides.  The floor is made of rough, solid granite.",
 											3, player.getLevel(), 3);
 								}
 								room16.setExits(roomWand, doorWand, room2, door2t16, room5, doorNormal, room1,
@@ -814,12 +814,12 @@ public class Game {
 							case 17:
 								if (room13 == null) {
 									room13 = new Room(player.getKeys(), 13,
-											"Entering, you find yourself in a Dining hall, built for use by the lowest servants. The walls are decorated with paintings. The image exhibits a squadron of hunter sharks constructing a building. The scene is set in a decrepit kitchen. The piece is formed entirely out of tiny seashells.  The floor is made of rough, solid granite.",
+											"in a Dining hall, built for use by the lowest servants. The walls are decorated with paintings. The image exhibits a squadron of hunter sharks constructing a building. The scene is set in a decrepit kitchen. The piece is formed entirely out of tiny seashells.  The floor is made of rough, solid granite.",
 											3, player.getLevel(), 3);
 								}
 								if (room19 == null) {
 									room19 = new Room(player.getKeys(), 19,
-											"Entering, you find yourself in a Market, a large room for trading of bulk food. The walls are decorated with dark smears and stains. The floor is made of rough soil.",
+											"in a Market, a large room for trading of bulk food. The walls are decorated with dark smears and stains. The floor is made of rough soil.",
 											3, player.getLevel() + 3, 3);
 								}
 								room17.setExits(room13, door13t17, room19, door17t19, roomWand, doorWand, roomWand,
@@ -828,17 +828,17 @@ public class Game {
 							case 18:
 								if (room12 == null) {
 									room12 = new Room(player.getKeys(), 12,
-											"Entering, you find yourself in a Laboratory, used to develop alchemical material transmutations. The walls are decorated with dark smears and stains. The floor is made of fitted shale bricks.",
+											"in a Laboratory, used to develop alchemical material transmutations. The walls are decorated with dark smears and stains. The floor is made of fitted shale bricks.",
 											3, player.getLevel(), 0);
 								}
 								if (room14 == null) {
 									room14 = new Room(player.getKeys(), 14,
-											"Entering, you find yourself in a Training Room, focused on sparring. The walls are decorated with a plaque on the wall with the saying: 'Never turn-down the aviculture.'. The floor is made of fitted sandstone bricks.",
+											"in a Training Room, focused on sparring. The walls are decorated with a plaque on the wall with the saying: 'Never turn-down the aviculture.'. The floor is made of fitted sandstone bricks.",
 											3, 10, 3);
 								}
 								if (room21 == null) {
 									room21 = new Room(player.getKeys(), 21,
-											"Entering, you find yourself in a Forge, with molds and casts specifically for crafting weapons. The walls are decorated with etchings on Daggers. The main image reveals great psychic battles , all fictional. The piece is outlined in red.  The floor is made of fitted slate flagstones.",
+											"in a Forge, with molds and casts specifically for crafting weapons. The walls are decorated with etchings on Daggers. The main image reveals great psychic battles , all fictional. The piece is outlined in red.  The floor is made of fitted slate flagstones.",
 											3, player.getLevel(), 3);
 								}
 								room18.setExits(room12, door12t18, roomWand, doorWand, room21, doorNormal, room14,
@@ -847,12 +847,12 @@ public class Game {
 							case 19:
 								if (room17 == null) {
 									room17 = new Room(player.getKeys(), 17,
-											"Entering, you find yourself in a Hospital, clearly designed for an epidemic of mental illness. The walls are decorated with bookshelves with texts of contrition of Corellon, Father of Elves. The floor is made of smooth-sanded granite.",
+											"in a Hospital, clearly designed for an epidemic of mental illness. The walls are decorated with bookshelves with texts of contrition of Corellon, Father of Elves. The floor is made of smooth-sanded granite.",
 											3, 10, 3);
 								}
 								if (roomTreppe == null) {
 									roomTreppe = new Room(player.getKeys(), -1,
-											"Entering, you find yourself in a Stairwell leading towards the basement. This is It! The Treasure must be down there, you think. ",
+											"in a Stairwell leading towards the basement. This is It! The Treasure must be down there, you think. ",
 											0, 1, 0);
 								}
 								room19.setExits(roomWand, doorWand, roomTreppe, door19tTreppe, roomWand, doorWand,
@@ -862,12 +862,12 @@ public class Game {
 							case 20:
 								if (room6 == null) {
 									room6 = new Room(player.getKeys(), 6,
-											"Entering, you find yourself in a Bathrooms, richly appointed. The walls are decorated with mosaics. The piece is of a xenomorph consumed by hope. The scene occurs in the basement of a smooth building.  The floor is made of smooth-sanded marble.",
+											"in a Bathrooms, richly appointed. The walls are decorated with mosaics. The piece is of a xenomorph consumed by hope. The scene occurs in the basement of a smooth building.  The floor is made of smooth-sanded marble.",
 											3, player.getLevel(), 3);
 								}
 								if (room22 == null) {
 									room22 = new Room(player.getKeys(), 22,
-											"Entering, you find yourself in a Museum, dedicated to relics of the masters of Conjuration. The walls are decorated with decorated tapestries. The piece displays a weeping mezzoloth conversing with a undead tiger. The scene occurs in a windy jungle. A dizzying hypostyle is visible in the distance. The floor is made of fitted red bricks.",
+											"in a Museum, dedicated to relics of the masters of Conjuration. The walls are decorated with decorated tapestries. The piece displays a weeping mezzoloth conversing with a undead tiger. The scene occurs in a windy jungle. A dizzying hypostyle is visible in the distance. The floor is made of fitted red bricks.",
 											3, player.getLevel(), 3);
 								}
 								room20.setExits(room6, door6t20, room22, doorNormal, roomWand, doorWand, roomWand,
@@ -876,12 +876,12 @@ public class Game {
 							case 21:
 								if (room18 == null) {
 									room18 = new Room(player.getKeys(), 18,
-											"Entering, you find yourself in a Barracks, built to house archers. The walls are decorated with paintings. The main image displays a filial rove. The action is set in a richly decorated operations center. It's signed W.L. The floor is made of smooth-sanded sandstone.",
+											"in a Barracks, built to house archers. The walls are decorated with paintings. The main image displays a filial rove. The action is set in a richly decorated operations center. It's signed W.L. The floor is made of smooth-sanded sandstone.",
 											3, player.getLevel(), 3);
 								}
 								if (room24 == null) {
 									room24 = new Room(player.getKeys(), 24,
-											"Entering, you find yourself in a Bathrooms, filthy and crumbling. The walls are decorated with frosted triangular windows. The floor is made of seated tiles of iron.",
+											"in a Bathrooms, filthy and crumbling. The walls are decorated with frosted triangular windows. The floor is made of seated tiles of iron.",
 											3, player.getLevel(), 3);
 								}
 								room21.setExits(room18, doorNormal, roomWand, doorWand, roomWand, doorWand, room24,
@@ -890,12 +890,12 @@ public class Game {
 							case 22:
 								if (room20 == null) {
 									room20 = new Room(player.getKeys(), 20,
-											"Entering, you find yourself in a Kitchen, which has clearly been used to cook with nuts and rice. The walls are decorated with bookshelves with tomes of Abjuration. The floor is made of seated tiles of iron.",
+											"in a Kitchen, which has clearly been used to cook with nuts and rice. The walls are decorated with bookshelves with tomes of Abjuration. The floor is made of seated tiles of iron.",
 											3, player.getLevel(), 3);
 								}
 								if (room24 == null) {
 									room24 = new Room(player.getKeys(), 24,
-											"Entering, you find yourself in a Bathrooms, filthy and crumbling. The walls are decorated with frosted triangular windows. The floor is made of seated tiles of iron.",
+											"in a Bathrooms, filthy and crumbling. The walls are decorated with frosted triangular windows. The floor is made of seated tiles of iron.",
 											3, player.getLevel(), 3);
 								}
 								room22.setExits(roomWand, doorWand, room24, doorNormal, roomWand, doorWand, room20,
@@ -904,7 +904,7 @@ public class Game {
 							case 23:
 								if (room25 == null) {
 									room25 = new Room(player.getKeys(), 25,
-											"Entering, you find yourself in a Guard Post, with a focus on explosives. The walls are decorated with a plaque on the wall with the epigram: 'Alchemise until the paragenetic self-heal gangrenes.'. The floor is made of rough soil.",
+											"in a Guard Post, with a focus on explosives. The walls are decorated with a plaque on the wall with the epigram: 'Alchemise until the paragenetic self-heal gangrenes.'. The floor is made of rough soil.",
 											3, player.getLevel(), 3);
 								}
 								room23.setExits(roomWand, doorWand, roomWand, doorWand, roomWand, doorWand, room25,
@@ -913,17 +913,17 @@ public class Game {
 							case 24:
 								if (room21 == null) {
 									room21 = new Room(player.getKeys(), 21,
-											"Entering, you find yourself in a Forge, with molds and casts specifically for crafting weapons. The walls are decorated with etchings on Daggers. The main image reveals great psychic battles , all fictional. The piece is outlined in red.  The floor is made of fitted slate flagstones.",
+											"in a Forge, with molds and casts specifically for crafting weapons. The walls are decorated with etchings on Daggers. The main image reveals great psychic battles , all fictional. The piece is outlined in red.  The floor is made of fitted slate flagstones.",
 											3, player.getLevel(), 3);
 								}
 								if (room22 == null) {
 									room22 = new Room(player.getKeys(), 22,
-											"Entering, you find yourself in a Museum, dedicated to relics of the masters of Conjuration. The walls are decorated with decorated tapestries. The piece displays a weeping mezzoloth conversing with a undead tiger. The scene occurs in a windy jungle. A dizzying hypostyle is visible in the distance. The floor is made of fitted red bricks.",
+											"in a Museum, dedicated to relics of the masters of Conjuration. The walls are decorated with decorated tapestries. The piece displays a weeping mezzoloth conversing with a undead tiger. The scene occurs in a windy jungle. A dizzying hypostyle is visible in the distance. The floor is made of fitted red bricks.",
 											3, player.getLevel(), 3);
 								}
 								if (room25 == null) {
 									room25 = new Room(player.getKeys(), 25,
-											"Entering, you find yourself in a Guard Post, with a focus on explosives. The walls are decorated with a plaque on the wall with the epigram: 'Alchemise until the paragenetic self-heal gangrenes.'. The floor is made of rough soil.",
+											"in a Guard Post, with a focus on explosives. The walls are decorated with a plaque on the wall with the epigram: 'Alchemise until the paragenetic self-heal gangrenes.'. The floor is made of rough soil.",
 											3, player.getLevel(), 3);
 								}
 								room24.setExits(roomWand, doorWand, room21, door21t24, room25, doorGeheim, room22,
@@ -932,12 +932,12 @@ public class Game {
 							case 25:
 								if (room23 == null) {
 									room23 = new Room(player.getKeys(), 23,
-											"Entering, you find yourself in a Jail, which clearly emphasizes religious fanaticism. Two prisoners are here, begging for escape, though only 1 is innocent. The walls are decorated with bookshelves with texts of divinity of Torm, the Hand of Righteousness. The floor is made of wooden boards.",
+											"in a Jail, which clearly emphasizes religious fanaticism. Two prisoners are here, begging for escape, though only 1 is innocent. The walls are decorated with bookshelves with texts of divinity of Torm, the Hand of Righteousness. The floor is made of wooden boards.",
 											3, player.getLevel(), 3);
 								}
 								if (room24 == null) {
 									room24 = new Room(player.getKeys(), 24,
-											"Entering, you find yourself in a Bathrooms, filthy and crumbling. The walls are decorated with frosted triangular windows. The floor is made of seated tiles of iron.",
+											"in a Bathrooms, filthy and crumbling. The walls are decorated with frosted triangular windows. The floor is made of seated tiles of iron.",
 											3, player.getLevel(), 3);
 								}
 								room25.setExits(room24, doorGeheim, room23, doorGeheim, roomWand, doorWand, roomWand,
