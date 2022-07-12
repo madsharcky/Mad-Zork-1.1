@@ -300,8 +300,8 @@ public class Player {
         text = text + "\t\tkeys: " + keys;
         text = text + "\t\tpotions: " + potions;
         text = text + "\tcarry capacity: " + carrySlots +"/"+carryCapacity;
-        text = text + "\t\tmoney: " + money;
-        text = text + "\t\tlevel: " + level;
+        text = text + "\tmoney: " + money;
+        text = text + "\tlevel: " + level;
         text = text + "\txp until next level: " + xpToLevelUp;
         if (isAttackMode()){
             text += "\n\nUsefull commands: attack, drink potion, retreat";
