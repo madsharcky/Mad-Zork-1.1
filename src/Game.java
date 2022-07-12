@@ -585,6 +585,9 @@ public class Game {
 						currentRoom.setVisited(true);
 						lastRoom = currentRoom;
 						currentRoom = nextRoom;
+						if (returnstring == ""){
+							returnstring = "You walk through the door into the next room";
+						}
 						roomNr = currentRoom.getRoomNr();
 						switch (roomNr) {// initialise adjacent rooms and doors
 							case 1:
