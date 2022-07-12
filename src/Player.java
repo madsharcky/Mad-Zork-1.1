@@ -45,7 +45,7 @@ public class Player {
         level++;
         attack = 20 * level;
         defense = 20 * level;
-        health = health + ((100 * level) - maxhealth);
+        health = (((health*100)/maxhealth)*(100*level))/100;
         maxhealth = 100 * level;
         carryCapacity = 3 + level;
         return "\nLevel up!\nYou are now level " + level;
