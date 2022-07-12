@@ -4,6 +4,7 @@
  * Date:    07.07.2022
  */
 
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -192,41 +193,19 @@ public class Player {
             return null;
         }
     }
-    /**
-	 * Asks the user if he wants to pick up an item.
-     * Gives an item to the player if item is known and player has enough carrycapacity left.
-     * Returns the resulting action as a String
-     * Usage - giveItem(Room.Item.keys, currentRoom);
-     * @param item - Room.Item
-     * @param room - Room
-     * @return - String
-     * @throws Exception
-     */
-    public String giveItem(Room.Item item, Room room) {
+    public String recieveItem (Room.Item item, Room room){
         String returnString = "";
         if (item == Room.Item.gold || item == Room.Item.silver || item == Room.Item.bronze) {
-            returnString = "you have found a " + item.toString() + " coin";
+            returnString = item.toString() + " coin";
         } else {
-            returnString = "you have found a " + item.toString();
-        }
-        returnString += "\nDo you want to pick it up?";
-        System.out.println(returnString);
-        Scanner input = new Scanner(System.in);
-        System.out.print(">");
-        String answer = input.next();
-
-        if (answer.equals("yes")) {
-            if (item == Room.Item.gold || item == Room.Item.silver || item == Room.Item.bronze) {
-                returnString = "you take the " + item.toString() + " coin and put it in your huge backpack.";
+            if (getRemainingCarryCapacity() > 0) {
+                returnString = item.toString();
             } else {
-                if (getRemainingCarryCapacity() > 0) {
-                    returnString = "you take the " + item.toString();
-                    returnString += " and put it in your belt";
-                } else {
-                    room.giveAnItem(item);
-                    return "You carry too much on your belt. drop a key or potion to free up space";
-                }
+                room.giveAnItem(item);
+                return "You carry too much on your belt. drop a key or potion to free up space";
             }
+        }
+        if (room.getAnItem(item)){
             switch (item) {
                 case key:
                     keys++;
@@ -244,15 +223,66 @@ public class Player {
                     money = money + 500;
                     break;
             }
-        } else {
-            if (item == Room.Item.gold || item == Room.Item.silver || item == Room.Item.bronze) {
-                returnString = "you leave the " + item.toString() + " coin";
-            } else {
-                returnString = "you leave the " + item.toString();
-            }
-            returnString += " where it lies";
-            room.giveAnItem(item);
         }
+        else{
+            returnString = "The chosen Item is to weird to add";
+        }        
+        return returnString;
+    }
+    /**
+	 * Asks the user if he wants to pick up an item.
+     * Gives an item to the player if item is known and player has enough carrycapacity left.
+     * Returns the resulting action as a String
+     * Usage - giveItem(Room.Item.keys, currentRoom);
+     * @param item - Room.Item
+     * @param room - Room
+     * @return - String
+     * @throws Exception
+     */
+    public String giveItem(List<Room.Item> items, Room room) {
+        String returnString = "You have found a Chest containing following items:";
+        for (Room.Item item : items) {
+            if (item == Room.Item.gold || item == Room.Item.silver || item == Room.Item.bronze) {
+                returnString += "\na " + item.toString() + " coin";
+            } else {
+                returnString += "\na " + item.toString();
+            }          
+        }
+        returnString += "\n\nWhat do you want to pick up?";
+        System.out.println(returnString);
+        Scanner input = new Scanner(System.in);
+        System.out.print(">");
+        String answer = input.next();
+
+            if(answer.equals("everything")||answer.equals("all")){
+                if (items.size() > getRemainingCarryCapacity()){
+                    return "You carry too much on your belt. drop a key or potion to free up space";
+                }
+                else{
+                    //TODO https://stackoverflow.com/questions/19660673/how-to-fix-a-java-util-concurrentmodificationexception
+                    for (Room.Item item : items){
+                        recieveItem(item,room);
+                    }
+                    returnString = "You pick up all the items";
+                }
+            }
+            else if(answer.equals("nothing") || answer.length()<=0){
+                return "You leave it all behind and turn around";
+            }
+            else{
+                Boolean wrongItem = true;
+                returnString = "You pick up a ";
+                for (Room.Item item : items){
+                    if (item.toString().equals(answer)){
+                        returnString += recieveItem(item,room);
+                        wrongItem = false;
+                        break;
+                    }
+                }
+                if (wrongItem){
+                    returnString = "You can not pick up a " + answer + ". It seems to you that no matter how long you look in the box you will ot find a "+answer;
+                }
+            }    
         return returnString;
     }
     /**
