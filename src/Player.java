@@ -4,6 +4,7 @@
  * Date:    07.07.2022
  */
 
+import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Player {
@@ -192,30 +193,67 @@ public class Player {
         }
     }
     /**
-	 * gives an item to the player. If the player does not know the item, nothing happens
-     * Usage - dropItem(Room.Item.keys);
+	 * Asks the user if he wants to pick up an item.
+     * Gives an item to the player if item is known and player has enough carrycapacity left.
+     * Returns the resulting action as a String
+     * Usage - giveItem(Room.Item.keys, currentRoom);
      * @param item - Room.Item
+     * @param room - Room
+     * @return - String
      * @throws Exception
      */
-    public void giveItem(Room.Item item) {
-        switch (item) {
-            case key:
-                keys++;
-                break;
-            case potion:
-                potions++;
-                break;
-            case bronze:
-                money = money + 100;
-                break;
-            case silver:
-                money = money + 200;
-                break;
-            case gold:
-                money = money + 500;
-                break;
+    public String giveItem(Room.Item item, Room room) {
+        String returnString = "";
+        if (item == Room.Item.gold || item == Room.Item.silver || item == Room.Item.bronze) {
+            returnString = "you have found a " + item.toString() + " coin";
+        } else {
+            returnString = "you have found a " + item.toString();
         }
+        returnString += "\nDo you want to pick it up?";
+        System.out.println(returnString);
+        Scanner input = new Scanner(System.in);
+        System.out.print(">");
+        String answer = input.next();
 
+        if (answer.equals("yes")) {
+            if (item == Room.Item.gold || item == Room.Item.silver || item == Room.Item.bronze) {
+                returnString = "you take the " + item.toString() + " coin and put it in your huge backpack.";
+            } else {
+                if (getRemainingCarryCapacity() > 0) {
+                    returnString = "you take the " + item.toString();
+                    returnString += " and put it in your belt";
+                } else {
+                    room.giveAnItem(item);
+                    return "You carry too much on your belt. drop a key or potion to free up space";
+                }
+            }
+            switch (item) {
+                case key:
+                    keys++;
+                    break;
+                case potion:
+                    potions++;
+                    break;
+                case bronze:
+                    money = money + 100;
+                    break;
+                case silver:
+                    money = money + 200;
+                    break;
+                case gold:
+                    money = money + 500;
+                    break;
+            }
+        } else {
+            if (item == Room.Item.gold || item == Room.Item.silver || item == Room.Item.bronze) {
+                returnString = "you leave the " + item.toString() + " coin";
+            } else {
+                returnString = "you leave the " + item.toString();
+            }
+            returnString += " where it lies";
+            room.giveAnItem(item);
+        }
+        return returnString;
     }
     /**
 	 * the player consumes a potion and gets max hp. returns false if no potions are avalable
