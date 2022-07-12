@@ -83,15 +83,30 @@ public class Door {
     }
 
     /**
-	 * returns damage if door is a trap. 
-     * returns 0 if door is not a trap
-     * Usage - openDoor();
-     * @return - int
+	 * Returns the resulting action when player springs the trap
+     * Usage - springTrap(player);
+     * @param player - Player
+     * @return - String
      * @throws Exception
      */
-    public int getSchaden() {
-        return schaden;
+    public String springTrap(Player player){
+        String returnString = "";
+        int evasion = ThreadLocalRandom.current().nextInt(0, player.getDefense() + 1);
+        if (evasion < schaden) {
+            int damage =schaden - evasion; // check if player gets damage
+            player.takeDamage(damage);
+            returnString ="you Take " + damage + " damage";
+            if (player.getHealth() <= 0) {
+                returnString = returnString
+                        + "\n\nYou are impaled and can not get free! Slowly you bleed out";
+                return returnString;
+            }
+        } else {
+            returnString ="You are lucky and take no damage";
+        }
+        return returnString;
     }
+    
     /**
 	 * returns the type of the door
      * Usage - gettype();

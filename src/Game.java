@@ -518,19 +518,7 @@ public class Game {
 					}
 					if (doorToPass.gettype() == Door.doorType.falle) { // Door has a trap
 						returnstring = returnstring + "\nThere's a trap!!!!";
-						int evasion = ThreadLocalRandom.current().nextInt(0, player.getDefense() + 1);
-						if (evasion < doorToPass.getSchaden()) {
-							int damage = doorToPass.getSchaden() - evasion; // check if player gets damage
-							player.takeDamage(damage);
-							returnstring = returnstring + "\nyou Take " + damage + " damage";
-							if (player.getHealth() <= 0) {
-								returnstring = returnstring
-										+ "\nYou are impaled and can not get free! Slowly you bleed out";
-								return returnstring;
-							}
-						} else {
-							returnstring = returnstring + "\nYou are lucky and take no damage";
-						}
+						returnstring += "\n"+doorToPass.springTrap(player);
 					}
 					if (doorToPass.gettype() == Door.doorType.geheim) { // Door is secret
 						returnstring = returnstring + "\nYou walk right through the wall!";
