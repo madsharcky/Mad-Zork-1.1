@@ -407,11 +407,10 @@ public class Game {
 		} else {
 			if (currentEnemy == null) { // no enemies are in the room
 				currentRoom.setExplored(true);
-				Room.Item item = currentRoom.getAnItem();
-				if (item == null) {
+				if (!currentRoom.containsItem()) {
 					returnString = "there is nothing more to find here";
 				} else {
-					returnString = player.giveItem(item, currentRoom);
+					returnString = player.giveItem(currentRoom.getItems(), currentRoom);
 				}
 			} else {
 				player.setAttackMode(true);

@@ -15,7 +15,9 @@
  * to the neighbouring room, or null if there is no exit in that direction.
  */
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
@@ -31,7 +33,8 @@ public class Room {
 	private boolean explored;
 	private HashMap<String, Entry<Room, Door>> exits; // stores exits of this room.
 	private Enemy enemies[];
-	private Item items[];
+	// private Item items[];
+	private List <Item> items;
 	private int playerKeys;
 
 	enum Item {
@@ -68,7 +71,7 @@ public class Room {
 		else{
 			randomAmount = ThreadLocalRandom.current().nextInt(0, maxItems + 1);
 		}
-		items = new Item[randomAmount];
+		items = new ArrayList<Room.Item>();
 		setItems(randomAmount);
 
 		int randomAmount = ThreadLocalRandom.current().nextInt(0, maxEnemyamount + 1);
@@ -112,15 +115,15 @@ public class Room {
 	private void setItems(int amount) {
 		if (amount > 0) {
 			if (playerKeys < 1) {
-				items[0] = Item.key;
+				items.add(Item.key);
 				for (int i = 1; i < amount; i++) {
 					Item item = selectRandomItem();
-					items[i] = item;
+					items.add(item);
 				}
 			} else {
 				for (int i = 0; i < amount; i++) {
 					Item item = selectRandomItem();
-					items[i] = item;
+					items.add(item);
 				}
 			}
 		}
@@ -174,16 +177,17 @@ public class Room {
      * @throws Exception
      */
 	public String description() {
+		String returnString ="";
 		if (visited) {
-			return "This looks familiar\n\n" + description + "\n" + exitString();
+			returnString = "This looks familiar\n\n";
 		} 
-		else if (firstTimeHere){
+		if (firstTimeHere){
 			firstTimeHere = false;
 			return "Entering, you find yourself " + description + "\n" + exitString();
 		}
-		else {
-			return "You are " + description + "\n" + exitString();
-		}
+		returnString += "You are " + description + "\n" + exitString();
+		return returnString;
+
 	}
 
 	/**
@@ -319,7 +323,7 @@ public class Room {
      * @throws Exception
      */
 	public boolean containsItem(){
-		if (items.length > 0){
+		if (items.size() > 0){
 			return true;
 		}
 		else{
@@ -327,26 +331,19 @@ public class Room {
 		}
 	}
 	/**
-	 * returns the firts item in the array
-	 * Usage - getAnItem();
-	 * @return - Room.Item
+	 * removes a specific item if in room
+	 * Usage - getAnItem(item);
+	 * @return - boolean
      * @throws Exception
      */
-	public Item getAnItem() {
-		Item itemToReturn = null;
-		if (items.length > 0) {
-			Item tempArray[] = new Item[items.length - 1];
-
-			for (int i = 0, k = 0; i < items.length; i++) {
-				if (i == 0) {
-					itemToReturn = items[i];
-					continue;
-				}
-				tempArray[k++] = items[i];
-			}
-			items = tempArray;
+	public boolean getAnItem(Item itemToDelete) {
+		if (items.contains(itemToDelete)){
+			items.remove(itemToDelete);
+			return true;
 		}
-		return itemToReturn;
+		else{
+			return false;
+		}
 	}
 	/**
 	 * appends an item in the room array
@@ -355,14 +352,7 @@ public class Room {
      * @throws Exception
      */
 	public void giveAnItem(Item itemToGive){
-		Item tempArray[] = new Item[items.length + 1];
-		int i = 0;
-		for (Item item : items) {
-			tempArray[i] = item;
-			i++;
-		}
-		tempArray[i] = itemToGive;
-		items = tempArray;
+		items.add(itemToGive);
 	}
 	/**
 	 * returns the number of the room
@@ -399,5 +389,14 @@ public class Room {
      */
 	public boolean isExplored() {
 		return explored;
+	}
+	/**
+	 * returns a list of all the items in the room
+	 * Usage - getItems();
+	 * @return - Item[]
+     * @throws Exception
+     */
+	public List<Item> getItems() {
+		return items;
 	}
 }
