@@ -27,7 +27,7 @@ public class Game {
 	private Player player;
 	private Room currentRoom;
 	private Enemy currentEnemy;
-	private int roomNr, alcoholSips;
+	private int roomNr, alcoholSips, attackCount;
 	private Room nextRoom, lastRoom;
 	private Door doorToPass;
 	private Room roomTreppe, roomDraussen, roomWand;
@@ -44,6 +44,7 @@ public class Game {
 	 * @throws Exception
 	 */
 	public Game() {
+		attackCount = 0;
 		finished = false;
 		parser = new Parser();
 		player = new Player();
@@ -369,6 +370,7 @@ public class Game {
 	 */
 	private String attackEnemy() {
 		if (player.isAttackMode()) {
+			attackCount++;
 			String returnString = "you swing your sword at the enemy";
 			int damage = currentEnemy.defend(player.getAttack());
 			if (currentEnemy.getHealth() > 0) {
@@ -379,7 +381,8 @@ public class Game {
 				player.setAttackMode(false);
 				returnString = returnString + "\nYour sword finnaly cuts off the " + currentEnemy.getType().toString()
 						+ "'s' head";
-				returnString = returnString + player.giveXp(currentEnemy.getLevel() * 30);
+				returnString = returnString + player.giveXp(currentEnemy.getXp(attackCount));
+				attackCount = 0;
 				if (player.getHealth() <= 0) {
 					player.setHealth(1);
 					returnString = returnString + "\nthrough sheer willpower you manage to barely stay alive";
