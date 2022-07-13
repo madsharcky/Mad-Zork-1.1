@@ -15,6 +15,7 @@ public class Enemy {
     private int attack;
     private int defense;
     private boolean firstAttack;
+    private int Xp;
 
     enum Enemytype {
         OwlbearSkeleton,
@@ -209,6 +210,16 @@ public class Enemy {
     public int getLevel() {
         return level;
     }
+    public int getXp(int roundsTillDefeated){
+        int xp = level * (30 - roundsTillDefeated);
+        if (xp <=10){
+            return 10;
+        }
+        else {
+            return xp;
+        }
+    }
+
 
     /**
      * Return the attackmove of the monster
