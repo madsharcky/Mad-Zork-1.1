@@ -155,6 +155,15 @@ public class Player {
     public int getKeys() {
         return keys;
     }
+    /**
+	 * returns the max health a player can have
+     * Usage - getMaxhealth();
+	 * @return - int
+     * @throws Exception
+     */
+    public int getMaxhealth() {
+        return maxhealth;
+    }
 	/**
 	 * removes 1 key from the player
      * Usage - takeKey();
