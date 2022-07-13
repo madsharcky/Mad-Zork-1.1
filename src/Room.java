@@ -177,16 +177,17 @@ public class Room {
      * @throws Exception
      */
 	public String description() {
+		String returnString ="";
 		if (visited) {
-			return "This looks familiar\n\n" + description + "\n" + exitString();
+			returnString = "This looks familiar\n\n";
 		} 
-		else if (firstTimeHere){
+		if (firstTimeHere){
 			firstTimeHere = false;
 			return "Entering, you find yourself " + description + "\n" + exitString();
 		}
-		else {
-			return "You are " + description + "\n" + exitString();
-		}
+		returnString += "You are " + description + "\n" + exitString();
+		return returnString;
+
 	}
 
 	/**

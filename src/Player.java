@@ -5,10 +5,13 @@
  */
 
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
+
 public class Player {
+    private boolean itemWasGiven;
     private int level;
     private int health;
     private int maxhealth;
@@ -36,6 +39,7 @@ public class Player {
         potions = 0;
         money = 0;
         carryCapacity = 3 + level;
+        itemWasGiven = false;
     }
 	/**
 	 * gives the player a level-up and adjusts all the stats accordingly. it returns a String with the level up text
@@ -193,45 +197,50 @@ public class Player {
             return null;
         }
     }
-    public String recieveItem (Room.Item item, Room room){
+    /**
+	 * Gets an Item and checks if it can be given to the player. Sets the global boolean Value itemWasGiven to true if it was given to the player.
+     * Returns the resulting action as a String
+     * Usage - recieveItem(Room.Item.keys);
+     * @param item - Room.Item
+	 * @return - String
+     * @throws Exception
+     */
+    private String recieveItem (Room.Item item){
         String returnString = "";
+        itemWasGiven = false;
         if (item == Room.Item.gold || item == Room.Item.silver || item == Room.Item.bronze) {
             returnString = item.toString() + " coin";
         } else {
             if (getRemainingCarryCapacity() > 0) {
                 returnString = item.toString();
             } else {
-                room.giveAnItem(item);
                 return "You carry too much on your belt. drop a key or potion to free up space";
             }
         }
-        if (room.getAnItem(item)){
-            switch (item) {
-                case key:
-                    keys++;
-                    break;
-                case potion:
-                    potions++;
-                    break;
-                case bronze:
-                    money = money + 100;
-                    break;
-                case silver:
-                    money = money + 200;
-                    break;
-                case gold:
-                    money = money + 500;
-                    break;
-            }
-        }
-        else{
-            returnString = "The chosen Item is to weird to add";
-        }        
+        itemWasGiven = true;
+        switch (item) {
+            case key:
+                keys++;
+                break;
+            case potion:
+                potions++;
+                break;
+            case bronze:
+                money = money + 100;
+                break;
+            case silver:
+                money = money + 200;
+                break;
+            case gold:
+                money = money + 500;
+                break;
+        }     
         return returnString;
     }
     /**
 	 * Asks the user if he wants to pick up an item.
      * Gives an item to the player if item is known and player has enough carrycapacity left.
+     * Removes the Item from the room it was given from.
      * Returns the resulting action as a String
      * Usage - giveItem(Room.Item.keys, currentRoom);
      * @param item - Room.Item
@@ -255,32 +264,39 @@ public class Player {
         String answer = input.next();
 
             if(answer.equals("everything")||answer.equals("all")){
-                if (items.size() > getRemainingCarryCapacity()){
-                    return "You carry too much on your belt. drop a key or potion to free up space";
-                }
-                else{
-                    //TODO https://stackoverflow.com/questions/19660673/how-to-fix-a-java-util-concurrentmodificationexception
-                    for (Room.Item item : items){
-                        recieveItem(item,room);
+                ListIterator<Room.Item> iterator = items.listIterator();
+                while(iterator.hasNext()){
+                    Room.Item item = iterator.next();
+                    returnString = recieveItem(item);
+                    if (itemWasGiven){
+                        iterator.remove();
                     }
+                }
+                if (itemWasGiven){
                     returnString = "You pick up all the items";
                 }
+                
             }
-            else if(answer.equals("nothing") || answer.length()<=0){
+            else if(answer.equals("nothing") || answer.length()<=0 || answer.equals("no")){
                 return "You leave it all behind and turn around";
             }
             else{
                 Boolean wrongItem = true;
                 returnString = "You pick up a ";
-                for (Room.Item item : items){
-                    if (item.toString().equals(answer)){
-                        returnString += recieveItem(item,room);
-                        wrongItem = false;
-                        break;
+                ListIterator<Room.Item> iterator = items.listIterator();
+                    while(iterator.hasNext()){
+                        Room.Item item = iterator.next();
+                        if (item.toString().equals(answer)){
+                            returnString += recieveItem(item);
+                            if (itemWasGiven){
+                                iterator.remove();
+                            }
+                            wrongItem = false;
+                            break;
+                        }
                     }
-                }
                 if (wrongItem){
-                    returnString = "You can not pick up a " + answer + ". It seems to you that no matter how long you look in the box you will ot find a "+answer;
+                    returnString = "You can not pick up a " + answer + ". It seems to you that no matter how long you look in the box you will not find a "+answer;
                 }
             }    
         return returnString;
@@ -310,7 +326,7 @@ public class Player {
     public String giveXp(int amount) {
         String returnString = "\nYou get " + amount + "xp";
         xp = xp + amount;
-        if (xp > level * 100) {
+        if (xp >= level * 100) {
             xp = xp - level * 100;
             returnString = returnString + giveLevel();
         }
