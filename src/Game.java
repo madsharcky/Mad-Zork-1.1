@@ -70,7 +70,7 @@ public class Game {
 
 		// initialize all the starting rooms
 		roomDraussen = new Room(player.getKeys(), 0,
-				"You stand in front of the entrance of the huge mansion, or rather where the entrance should be. Unfortunately,",
+				"in front of the entrance of the huge mansion, or rather where the entrance should be. Unfortunately,",
 				0, 1, 0);
 		roomWand = new Room(player.getKeys(), -1, "", 0, 0, 0);
 		room12 = new Room(player.getKeys(), 12,
@@ -80,7 +80,7 @@ public class Game {
 		roomDraussen.setExits(roomDraussen, doorWand, roomDraussen, doorWand, roomDraussen, doorWand, room12,
 				doorGeheim);
 		roomDraussen.setExplored(true);
-		roomDraussen.setVisited(true);
+		// roomDraussen.setVisited(true);
 		// start game outside
 		currentRoom = roomDraussen;
 		map = new Map(currentRoom);

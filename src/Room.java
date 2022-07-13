@@ -31,9 +31,8 @@ public class Room {
 	private int roomNr;
 	private boolean visited;
 	private boolean explored;
-	private HashMap<String, Entry<Room, Door>> exits; // stores exits of this room.
+	private HashMap<String, Entry<Room, Door>> exits; // stores exits of this room and the doors of the exit
 	private Enemy enemies[];
-	// private Item items[];
 	private List <Item> items;
 	private int playerKeys;
 
@@ -59,7 +58,12 @@ public class Room {
      */
 	public Room(int playerKeys, Integer roomNr, String description, int maxItems, int enemyMaxLevel,
 			int maxEnemyamount) {
-		firstTimeHere = true;
+		if (roomNr == 0){
+			firstTimeHere = false;
+		}
+		else{
+			firstTimeHere = true;			
+		}
 		visited = false;
 		this.playerKeys = playerKeys;
 		this.roomNr = roomNr;
