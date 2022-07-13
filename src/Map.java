@@ -68,6 +68,28 @@ public class Map {
             }
         }
     }
+    /**
+	 * add a Room to the map. The room needs to be adjacent to a room which is already on the map
+     * Usage - addRoom(room6);
+	 * @param roomToAdd - Room
+     * @throws Exception
+     */
+    public void addRoom(Room roomToAdd) {
+        if (roomList.isEmpty()) {
+            roomList.add(roomToAdd);
+            xKoordinaten.add(xKoordinate);
+            yKoordinaten.add(yKoordinate);
+        } else {
+            if (roomList.contains(roomToAdd)) {
+            } else {
+                koordinatenBerechnen(roomToAdd);
+                roomList.add(roomToAdd);
+                xKoordinaten.add(xKoordinate);
+                yKoordinaten.add(yKoordinate);
+            }
+            currentRoom = roomToAdd;
+        }
+    }
 	/**
 	 * Return a string containing the map and the legend at the bottom
      * Usage - showMap(Room8);
@@ -344,26 +366,5 @@ public class Map {
         returnString += "X - you are here\t$ - there is at least 1 item in the room\t/ - Door";
         return returnString;
     }
-	/**
-	 * add a Room to the map. The room needs to be adjacent to a room which is already on the map
-     * Usage - addRoom(room6);
-	 * @param roomToAdd - Room
-     * @throws Exception
-     */
-    public void addRoom(Room roomToAdd) {
-        if (roomList.isEmpty()) {
-            roomList.add(roomToAdd);
-            xKoordinaten.add(xKoordinate);
-            yKoordinaten.add(yKoordinate);
-        } else {
-            if (roomList.contains(roomToAdd)) {
-            } else {
-                koordinatenBerechnen(roomToAdd);
-                roomList.add(roomToAdd);
-                xKoordinaten.add(xKoordinate);
-                yKoordinaten.add(yKoordinate);
-            }
-            currentRoom = roomToAdd;
-        }
-    }
+
 }

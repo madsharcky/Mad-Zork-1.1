@@ -82,6 +82,7 @@ public class Room {
 
 	}
 	public Room(Player player) {
+		Random random = new Random();
 		description = roomDescriptions[random.nextInt(roomDescriptions.length)];
 		firstTimeHere = true;			
 		visited = false;
@@ -223,16 +224,12 @@ public class Room {
 		setDoors(doorTypeNorth, doorTypeEast, doorTypeSouth, doorTypeWest);
 	}
 
-	private HashMap<String, Room> setRoom(String direction, Player player){
+	public void setRoom(String direction, Room room){
 		if (doors.get(direction).gettype().equals(Door.doorType.wand)){
-			Room room = new Room();
-			rooms.put(direction, room);
 		}
 		else {
-			Room room = new Room(player);
 			rooms.put(direction, room);
 		}
-		return rooms;
 	}
 	/**
 	 * Define the doors of this room. Every direction needs to have a door. Insert a doorWand to have no exit.
@@ -243,7 +240,7 @@ public class Room {
 	 * @param doorTypeWest - Door.doorType
      * @throws Exception
      */
-	public void setDoors (Door.doorType doorTypeNorth, Door.doorType doorTypeEast, Door.doorType doorTypeSouth, Door.doorType doorTypeWest){
+	private void setDoors (Door.doorType doorTypeNorth, Door.doorType doorTypeEast, Door.doorType doorTypeSouth, Door.doorType doorTypeWest){
 		if (doorTypeNorth != null){
 			Door door = new Door(doorTypeNorth);
 			doors.put("north", door);
@@ -273,6 +270,10 @@ public class Room {
 			}
 		}
 	}
+	public void setOneDoor(Door door, String direction){
+		doors.put(direction, door);
+	}
+
 
 	/**
 	 * Return a description of this room. If the room was visited before, the String starts of with "This looks familiar"
@@ -335,8 +336,9 @@ public class Room {
      */
 	//TODO change behaviour of recieving
 	public Room[] getAdjacentRooms() {
-		Room adjacentRooms[] = { nextRoom("north"), nextRoom("east"), nextRoom("south"), nextRoom("west") };
+		Room adjacentRooms[] = { rooms.get("north"), rooms.get("east"), rooms.get("south"), rooms.get("west") };
 		return adjacentRooms;
+		
 	}
 
 	/**
