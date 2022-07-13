@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Door {
     enum doorType{
-        durchgang,
+        opferTuer,
         falltuer,
         tuer,
         abgeschlossen,
@@ -19,6 +19,7 @@ public class Door {
     private int schaden;
     private boolean sichtbar;
     private doorType type;
+    private int kosten;
 	/**
 	 * Create a Door object. Doortype must be supplied
      * Usage - Door(Door.doorType.tuer);
@@ -28,40 +29,47 @@ public class Door {
     public Door(doorType type){
         this.type = type;
         switch(type){
-            case durchgang:
-                offen = true;
+            case opferTuer:
+                offen = false;
                 schaden = 0;
                 sichtbar = true;
+                kosten = 5000;
                 break;
             case falltuer:
                 offen = true;
                 schaden = 0;
                 sichtbar = true;
+                kosten = 0;
                 break;
             case tuer:
                 offen = true;
                 schaden = 0;
                 sichtbar = true;
+                kosten = 0;
                 break;
             case abgeschlossen:
                 offen = false;
                 schaden = 0;
                 sichtbar = true;
+                kosten = 0;
                 break;
             case falle:
                 offen = true;
                 schaden = ThreadLocalRandom.current().nextInt(0, 30 + 1);;
                 sichtbar = true;
+                kosten = 0;
                 break;
             case geheim:
                 offen = true;
                 schaden = 0;
                 sichtbar = false;
+                kosten = 0;
                 break;
             case wand:
                 offen = true;
                 schaden = 0;
                 sichtbar = false;
+                kosten = 0;
                 break;
         }
     }
@@ -72,6 +80,34 @@ public class Door {
      */
     public void openDoor(){
         offen = true;
+    }
+    /**
+	 * returns the amount that needs to be payed to go through the door
+     * Usage - getKosten();
+     * @return - int
+     * @throws Exception
+     */
+    public int getKosten(){
+        return kosten;
+    }
+	/**
+	 * Give money to the door. It opens if enough was payed. returns the change
+     * Usage - openDoor(500);
+     * @param payment - int
+     * @return - int
+     * @throws Exception
+     */
+    public int payDoor(int payment){
+        if (payment >= kosten){
+            openDoor();
+            int change = payment - kosten;
+            kosten = 0;
+            return change;
+        }
+        else {
+            kosten = kosten - payment;
+            return 0;
+        }
     }
     /**
 	 * closes the door so player can not pass through

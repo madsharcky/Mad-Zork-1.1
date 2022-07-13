@@ -37,7 +37,7 @@ public class Player {
         defense = 10 * level;
         keys = 0;
         potions = 0;
-        money = 0;
+        money = 5000;
         carryCapacity = 3 + level;
         itemWasGiven = false;
     }
@@ -68,7 +68,12 @@ public class Player {
         int randomNumber = ThreadLocalRandom.current().nextInt(lowerBound, upperBound + 1);
         return randomNumber;
     }
-
+    public int getMoney() {
+        return money;
+    }
+    public void setMoney(int money) {
+        this.money = money;
+    }
 	/**
 	 * returns if the player is in attackmode or not
      * Usage - isAttackMode();

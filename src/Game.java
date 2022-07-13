@@ -33,7 +33,7 @@ public class Game {
 	private Room roomTreppe, roomDraussen, roomWand;
 	private Room room1, room2, room3, room4, room5, room6, room7, room8, room9, room10, room11, room12, room13, room14,
 			room15, room16, room17, room18, room19, room20, room21, room22, room23, room24, room25;
-	private Door doorGeheim, doorNormal, doorWand, door12t18, door18t14, door14t11, door8t9, door9t3, door2t16,
+	private Door doorGeheim, doorNormal, doorWand, door12t18, door18t14, door14t11, door8t9, door9t3, door2t16, door12t8,
 			door6t20, door13t17, door10t15, door16t1, door21t24, door17t19, door19tTreppe;
 
 	/**
@@ -55,6 +55,7 @@ public class Game {
 		doorNormal = new Door(Door.doorType.tuer);
 		doorGeheim = new Door(Door.doorType.geheim);
 		doorWand = new Door(Door.doorType.wand);
+		door12t8 = new Door(Door.doorType.opferTuer);
 		door12t18 = new Door(Door.doorType.falle);
 		door6t20 = new Door(Door.doorType.falle);
 		door16t1 = new Door(Door.doorType.falle);
@@ -495,27 +496,68 @@ public class Game {
 				// valid rooms
 				else {
 					if (!doorToPass.getoffen()) { // Door is closed
-						System.out.println("This door is closed.");
-						System.out.println("Do you want to open it?");
-						Scanner input = new Scanner(System.in);
-						System.out.print(">");
-						String answer = input.next();
-						if (answer.equals("yes")) {
-							if (doorToPass.gettype() == Door.doorType.falltuer) {
-								return "You try to open the door, but it does not work! \nBut the door was open before, when you passed through it! \nWhat is happening here? Confused you turn around ";
-							} else {
-								if (player.getKeys() < 1) {
-									return "You can't open the door without a key. you turn around.";
-								} else {
-									doorToPass.openDoor();
-									player.takeKey();
-									returnstring = "You open the door";
+						if (doorToPass.gettype() == Door.doorType.opferTuer){
+							System.out.println("The door has no keyhole or doorknob. Instead it has a slit only big enough for a coin"+
+							"\nyou knock and in blood the number " + doorToPass.getKosten() + " appears."+
+							"\nHow much money do you want to insert into the door?");
+							Scanner input = new Scanner(System.in);
+							System.out.print(">");
+							String answer = input.next();
+							try{
+								if (answer.equals("none") || answer.equals("0")){
+									return "You don't pay and turn around.";								
+								}
+								else{
+									int money = Integer.parseInt(answer);
+									if (money <0){
+										throw new NumberFormatException();
+									}
+									if (player.getMoney() < money){
+										return "You don't have that amount of money\nYou turn around";
+									}
+									else{
+										int change = doorToPass.payDoor(money);
+										player.setMoney(player.getMoney()-money+change);
+										if (doorToPass.getoffen()){
+											if (change > 0 ){
+												returnstring = "The Door spits out a coin worth " + change + ". You pick it up.\n";
+											}
+											returnstring += "The door swings wide open. You pass through it";
+										}
+										else{
+											return "That was not quiet enough";
+										}
+									}	
 								}
 							}
-						} else if (answer.equals("no")) {
-							return "you dont open the door and turn around";
-						} else {
-							return "confused on what to do you turn around";
+							catch(NumberFormatException ex){
+								return "What does that even mean? Confused you turn around.";
+							}
+						}
+						else{
+							System.out.println("This door is locked.");
+							System.out.println("Do you want to open it?");
+							Scanner input = new Scanner(System.in);
+							System.out.print(">");
+							String answer = input.next();
+							if (answer.equals("yes")) {
+								if (doorToPass.gettype() == Door.doorType.falltuer) {
+									return "You try to open the door, but it does not work! \nBut the door was open before, when you passed through it! \nWhat is happening here? Confused you turn around ";
+								} 
+								else {
+									if (player.getKeys() < 1) {
+										return "You can't open the door without a key. you turn around.";
+									} else {
+										doorToPass.openDoor();
+										player.takeKey();
+										returnstring = "You open the door";
+									}
+								}
+							} else if (answer.equals("no")) {
+								return "you dont open the door and turn around";
+							} else {
+								return "confused on what to do you turn around";
+							}
 						}
 					}
 					if (doorToPass.gettype() == Door.doorType.falle) { // Door has a trap
@@ -707,7 +749,7 @@ public class Game {
 											"in a Barracks, built to house archers. The walls are decorated with paintings. The main image displays a filial rove. The action is set in a richly decorated operations center. It's signed W.L. The floor is made of smooth-sanded sandstone.",
 											3, player.getLevel(), 3);
 								}
-								room12.setExits(room8, doorNormal, roomDraussen, doorGeheim, room18, door12t18,
+								room12.setExits(room8, door12t8, roomDraussen, doorGeheim, room18, door12t18,
 										roomWand,
 										doorWand);
 								break;
