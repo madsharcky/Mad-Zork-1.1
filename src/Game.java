@@ -417,6 +417,19 @@ public class Game {
 				return "Go where?\nYour options are:\n" + currentRoom.exitString();
 			} else {
 				String direction = command.getSecondWord();
+				if (direction.equals("up")){
+					direction = "north";
+				}
+				if (direction.equals("right")){
+					direction = "east";
+				}
+				if (direction.equals("down")){
+					direction = "south";
+				}
+				if (direction.equals("left")){
+					direction = "west";
+				}
+				
 				if (direction.equals("back")) { // go to the last visited room
 					for (int i = 0; i < currentRoom.getAdjacentRooms().length; i++) {
 						if (currentRoom.getAdjacentRooms()[i] == null || lastRoom == null) {
@@ -445,6 +458,9 @@ public class Game {
 				}
 				doorToPass = currentRoom.doorToPass(direction);
 				// invalid doors
+				if (doorToPass == null){
+					return "That is not a valid direction. Directions are 'north', 'south', 'east', 'west' and 'back'";
+				}
 				if (doorToPass.gettype() == Door.doorType.wand) {
 					return "Like a sims you try to walk into the wall several times until you finally give up and turn around.";
 				} else if (doorToPass == null) {
@@ -530,10 +546,16 @@ public class Game {
 					}
 					currentRoom.setVisited(true);
 					lastRoom = currentRoom;
-					currentRoom = new Room(player);
-					lastRoom.setRoom(direction, currentRoom);
-					
-					currentRoom.setRoom(getOppositeDirection(direction), lastRoom);
+					if (lastRoom.getRoom(direction)==null){
+						currentRoom = new Room(player);
+						lastRoom.setRoom(direction, currentRoom);
+						currentRoom.setOneDoor(lastRoom.doorToPass(direction), getOppositeDirection(direction));
+						currentRoom.setRoom(getOppositeDirection(direction), lastRoom);
+					}
+					else{
+						currentRoom = lastRoom.getRoom(direction);
+					}					
+
 					if (returnstring == ""){
 						returnstring = "\nYou walk through the door into the next room";
 					}

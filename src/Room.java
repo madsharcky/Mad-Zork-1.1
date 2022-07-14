@@ -223,8 +223,11 @@ public class Room {
 		}
 		setDoors(doorTypeNorth, doorTypeEast, doorTypeSouth, doorTypeWest);
 	}
+	public Room getRoom(String direction){
+			return rooms.get(direction);
+	}
 
-	public void setRoom(String direction, Room room){
+	public void setRoom(String direction, Room room){		
 		if (doors.get(direction).gettype().equals(Door.doorType.wand)){
 		}
 		else {
@@ -348,18 +351,6 @@ public class Room {
 	 * @return - Door
      */
 	public Door nextDoor(String direction) {
-		if (direction.equals("up")){
-			direction = "north";
-		}
-		if (direction.equals("right")){
-			direction = "east";
-		}
-		if (direction.equals("down")){
-			direction = "south";
-		}
-		if (direction.equals("left")){
-			direction = "west";
-		}
 		try {
 			return doors.get(direction);
 		} catch (Exception e) {
@@ -374,18 +365,6 @@ public class Room {
 	 * @return - Door
      */
 	public Door doorToPass(String direction) {
-		if (direction.equals("up")){
-			direction = "north";
-		}
-		if (direction.equals("right")){
-			direction = "east";
-		}
-		if (direction.equals("down")){
-			direction = "south";
-		}
-		if (direction.equals("left")){
-			direction = "west";
-		}
 		try {
 			return doors.get(direction);
 		} catch (Exception e) {
