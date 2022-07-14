@@ -91,22 +91,6 @@ public class Room {
 
 		int maxAmount = 0;
 		if (player.getHealth() < player.getMaxhealth()*0.25){
-			maxAmount = 4;
-		}
-		else if (player.getHealth() < player.getMaxhealth()*0.5){
-			maxAmount = 3;
-		}
-		else if (player.getHealth() < player.getMaxhealth()*0.75){
-		maxAmount = 2;
-		}
-		else{
-			maxAmount = 1;
-		}
-		int randomItemAmount = ThreadLocalRandom.current().nextInt(0, maxAmount + 1);
-		items = new ArrayList<Room.Item>();
-		setItems(randomItemAmount);
-		
-		if (player.getHealth() < player.getMaxhealth()*0.25){
 			maxAmount = 1;
 		}
 		else if (player.getHealth() < player.getMaxhealth()*0.5){
@@ -118,7 +102,24 @@ public class Room {
 		int randomEnemyAmount = ThreadLocalRandom.current().nextInt(0, maxAmount + 1);
 		enemies = new Enemy[randomEnemyAmount];
 		setEnemies(randomEnemyAmount, player.getLevel());		
+		if (player.getHealth() < player.getMaxhealth()*0.25){
+			maxAmount = 4;
+		}
+		else if (player.getHealth() < player.getMaxhealth()*0.5){
+			maxAmount = 3;
+		}
+		else if (player.getHealth() < player.getMaxhealth()*0.75){
+		maxAmount = 2;
+		}
+		else{
+			maxAmount = 1;
+		}
+		maxAmount += randomEnemyAmount;
+		int randomItemAmount = ThreadLocalRandom.current().nextInt(0, maxAmount + 1);
+		items = new ArrayList<Room.Item>();
+		setItems(randomItemAmount);
 	}
+	
 
 	/**
 	 * Put random enemies in the Room
@@ -335,11 +336,20 @@ public class Room {
 	 * @return - Room[]
      * @throws Exception
      */
-	//TODO change behaviour of recieving
 	public Room[] getAdjacentRooms() {
 		Room adjacentRooms[] = { rooms.get("north"), rooms.get("east"), rooms.get("south"), rooms.get("west") };
 		return adjacentRooms;
-		
+	}
+
+
+	/**
+	 * Return an array of all the adjacent doors
+	 * Usage - getAdjacentDoors();
+	 * @return - Door[]
+     * @throws Exception
+	 */
+	public HashMap<String, Door> getDoors() {
+		return doors;
 	}
 
 	/**

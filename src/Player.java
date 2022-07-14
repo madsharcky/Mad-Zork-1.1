@@ -37,7 +37,7 @@ public class Player {
         defense = 10 * level;
         keys = 0;
         potions = 0;
-        money = 5000;
+        money = 0;
         carryCapacity = 3 + level;
         itemWasGiven = false;
     }
