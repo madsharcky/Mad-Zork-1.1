@@ -19,11 +19,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.Map.Entry;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Room {
-	private int randomAmount;
 	private boolean firstTimeHere;
 	private Random random;
 	private String description;
@@ -119,7 +117,7 @@ public class Room {
 		}
 		int randomEnemyAmount = ThreadLocalRandom.current().nextInt(0, maxAmount + 1);
 		enemies = new Enemy[randomEnemyAmount];
-		setEnemies(randomAmount, player.getLevel());		
+		setEnemies(randomEnemyAmount, player.getLevel());		
 	}
 
 	/**
