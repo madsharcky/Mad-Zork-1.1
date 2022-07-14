@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
@@ -21,14 +25,14 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Game {
 
 	private boolean finished, retreat;
-	private Map map;
+	private LevelMap map;
 	private ASCIIArtGenerator artgen;
 	private Parser parser;
 	private Player player;
 	private Room currentRoom;
 	private Enemy currentEnemy;
-	private int roomNr, alcoholSips, attackCount;
-	private Room nextRoom, lastRoom;
+	private int alcoholSips, attackCount;
+	private Room lastRoom;
 	private Door doorToPass;
 
 	/**
@@ -39,15 +43,26 @@ public class Game {
 	 * @throws Exception
 	 */
 	public Game() {
-		attackCount = 0;
-		finished = false;
 		parser = new Parser();
 		player = new Player();
+		currentRoom = new Room(player);	// set starting room
+		if (isPlayerStuck()){
+			Iterator<Map.Entry<String, Door>> iterator = currentRoom.getDoors().entrySet().iterator();
+			while (iterator.hasNext()){
+				Map.Entry<String, Door> entry = iterator.next();
+				if (entry.getValue().gettype() == Door.doorType.wand){
+					Door door = new Door(Door.doorType.tuer);
+					currentRoom.setOneDoor(door, entry.getKey());
+					break;
+				}
+			}
+		}
+		map = new LevelMap(currentRoom);
+		attackCount = 0;
+		finished = false;
 		retreat= false;
 		alcoholSips = 0;
 		currentEnemy = null;
-		currentRoom = new Room(player);	// set starting room
-		map = new Map(currentRoom);
 	}
 
 	/**
@@ -555,11 +570,22 @@ public class Game {
 					else{
 						currentRoom = lastRoom.getRoom(direction);
 					}					
-
+					//check if player has exit inn this room or the next one
+					if (isPlayerStuck()){
+						Iterator<Map.Entry<String, Door>> iterator = currentRoom.getDoors().entrySet().iterator();
+						while (iterator.hasNext()){
+							Map.Entry<String, Door> entry = iterator.next();
+							if (entry.getValue().gettype() == Door.doorType.wand){
+								Door door = new Door(Door.doorType.tuer);
+								currentRoom.setOneDoor(door, entry.getKey());
+								break;
+							}
+						}
+					}
+					
 					if (returnstring == ""){
 						returnstring = "\nYou walk through the door into the next room";
 					}
-					
 					map.addRoom(currentRoom);
 					return returnstring;
 				}
@@ -583,5 +609,61 @@ public class Game {
 				break;
 		}
 		return oppositeDirection;
+	}
+
+	private boolean isPlayerStuck(){
+		boolean roomDoorStuck = true;
+		Iterator<Map.Entry<String, Door>> iterator = currentRoom.getDoors().entrySet().iterator();
+		while (iterator.hasNext()){
+			Map.Entry<String, Door> entry = iterator.next();
+			if (entry.getValue().gettype() == Door.doorType.wand){
+			}
+			else if (entry.getValue().gettype() == Door.doorType.abgeschlossen && !entry.getValue().getoffen() && player.getKeys()==0){
+			}
+			else if (entry.getValue().gettype() == Door.doorType.falltuer && !entry.getValue().getoffen()){
+			}
+			else if (entry.getValue().gettype() == Door.doorType.opferTuer && !entry.getValue().getoffen() && player.getMoney()<entry.getValue().getKosten()){
+			}
+			else{ 
+				if (currentRoom.getRoom(entry.getKey()) == null){roomDoorStuck = false;}
+				else{									
+					Room room2 = currentRoom.getRoom(entry.getKey());
+					Iterator<Map.Entry<String, Door>> iterator2 = room2.getDoors().entrySet().iterator();
+					while (iterator2.hasNext()){
+						Map.Entry<String, Door> entry2 = iterator2.next();
+						if (entry2.getValue().gettype() == Door.doorType.wand){
+						}
+						else if (entry2.getValue().gettype() == Door.doorType.abgeschlossen && !entry2.getValue().getoffen() && player.getKeys()==0){
+						}
+						else if (entry2.getValue().gettype() == Door.doorType.falltuer && !entry2.getValue().getoffen()){
+						}
+						else if (entry2.getValue().gettype() == Door.doorType.opferTuer && !entry2.getValue().getoffen() && player.getMoney()<entry2.getValue().getKosten()){
+						}
+						else{ 
+							if (room2.getRoom(entry2.getKey()) == null){roomDoorStuck = false;}
+							else{										
+								Room room3 = room2.getRoom(entry2.getKey());
+								Iterator<Map.Entry<String, Door>> iterator3 = room3.getDoors().entrySet().iterator();
+								while (iterator3.hasNext()){
+									Map.Entry<String, Door> entry3 = iterator3.next();
+									if (entry3.getValue().gettype() == Door.doorType.wand){
+									}
+									else if (entry3.getValue().gettype() == Door.doorType.abgeschlossen && !entry3.getValue().getoffen() && player.getKeys()==0){
+									}
+									else if (entry3.getValue().gettype() == Door.doorType.falltuer && !entry3.getValue().getoffen()){
+									}
+									else if (entry3.getValue().gettype() == Door.doorType.opferTuer && !entry3.getValue().getoffen() && player.getMoney()<entry3.getValue().getKosten()){
+									}
+									else{
+										roomDoorStuck = false;
+									}												
+								}
+							}
+						}
+					}
+				}		
+			}
+		}
+		return roomDoorStuck;
 	}
 }
