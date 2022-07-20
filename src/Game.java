@@ -641,6 +641,7 @@ public class Game {
 						}
 						else{ 
 							if (room2.getRoom(entry2.getKey()) == null){roomDoorStuck = false;}
+							else if (entry2.getKey() == getOppositeDirection(entry.getKey())){}
 							else{										
 								Room room3 = room2.getRoom(entry2.getKey());
 								Iterator<Map.Entry<String, Door>> iterator3 = room3.getDoors().entrySet().iterator();
