@@ -15,7 +15,6 @@ public class Enemy {
     private int attack;
     private int defense;
     private boolean firstAttack;
-    private int Xp;
 
     enum Enemytype {
         OwlbearSkeleton,
