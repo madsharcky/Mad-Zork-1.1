@@ -38,7 +38,7 @@ public class Player {
         keys = 0;
         potions = 0;
         money = 0;
-        carryCapacity = 3;
+        carryCapacity = 3 + level;
         itemWasGiven = false;
     }
 	/**
@@ -53,7 +53,7 @@ public class Player {
         defense = 20 * level;
         health = (((health*100)/maxhealth)*(100*level))/100;
         maxhealth = 100 * level;
-        carryCapacity = 3 ;
+        carryCapacity = 3 + level;
         return "\nLevel up!\nYou are now level " + level;
     }
 	/**
@@ -283,8 +283,9 @@ public class Player {
                 returnString = "You have picked up the following items: ";
                 while(iterator.hasNext()){
                     Room.Item item = iterator.next();
-                    if (!recieveItem(item).equals("")){
-                        returnString += recieveItem(item) +", ";
+                    String itemString = recieveItem(item);
+                    if (itemString != ""){
+                        returnString += itemString +", ";
                         if (itemWasGiven){
                             iterator.remove();
                         }
