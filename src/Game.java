@@ -84,6 +84,7 @@ public class Game {
 					int damage = player.defend(currentEnemy.getAttack());
 					if (damage > 0) {
 						System.out.println("You take " + damage + " damage");
+						player.addDamageTaken(damage);
 					} else {
 						System.out.println("You manage to dodge the attack");
 					}
@@ -105,6 +106,9 @@ public class Game {
 			}
 		}
 		artgen.printTextArt("thx for playing", 16, ASCIIArtGenerator.ASCIIArtFont.ART_FONT_SERIF, "M");
+		System.out.println("your Stats are as follows:");
+		System.out.println(player.getStatistics());
+		System.out.println("Your Score is: " + player.getMoney());
 		System.out.println("press enter to continue");
 		Scanner input = new Scanner(System.in);
 		input.nextLine();
@@ -347,6 +351,7 @@ public class Game {
 			attackCount++;
 			String returnString = "you swing your sword at the enemy";
 			int damage = currentEnemy.defend(player.getAttack());
+			player.addDamageDealt(damage);
 			if (currentEnemy.getHealth() > 0) {
 				returnString = returnString + "\nyou do " + damage + " damage";
 				returnString = returnString + "\nit has " + currentEnemy.getHealth() + " health left.";
@@ -356,6 +361,8 @@ public class Game {
 				returnString = returnString + "\nYour sword finnaly cuts off the " + currentEnemy.getType().toString()
 						+ "'s' head";
 				returnString = returnString + player.giveXp(currentEnemy.getXp(attackCount));
+				player.addNrOfAttacks(attackCount);
+				player.addMonstersKilled(1);
 				attackCount = 0;
 				if (player.getHealth() <= 0) {
 					player.setHealth(1);
@@ -384,6 +391,7 @@ public class Game {
 		} else {
 			if (currentEnemy == null) { // no enemies are in the room
 				currentRoom.setExplored(true);
+				player.addRoomsExplored(1);
 				if (!currentRoom.containsItem()) {
 					returnString = "there is nothing more to find here";
 				} else {
@@ -475,6 +483,7 @@ public class Game {
 					return "That is not a valid direction. Directions are 'north', 'south', 'east', 'west' and 'back'";
 				}
 				if (doorToPass.gettype() == Door.doorType.wand) {
+					player.addWalkedInWalls(1);
 					return "Like a sims you try to walk into the wall several times until you finally give up and turn around.";
 				} else if (doorToPass == null) {
 					return "That is not a valid direction. Directions are:\nnorth, east, south, west and back";
@@ -535,7 +544,7 @@ public class Game {
 										return "You can't open the door without a key. you turn around.";
 									} else {
 										doorToPass.openDoor();
-										player.takeKey();
+										player.takeKey();										
 										returnstring = "You open the door";
 									}
 								}

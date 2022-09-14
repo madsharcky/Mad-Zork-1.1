@@ -23,8 +23,17 @@ public class Player {
     private int money;
     private int xp;
     private boolean isFighting;
-
-	/**
+    private int monstersKilled;
+    private int keysUsed;
+    private int potionsUsed;
+    private int walkedInWalls;
+    private int roomsExplored;
+    private int itemsPickedUp;
+    private int itemsDropped;
+    private int damageDealt;
+    private int damageTaken;
+    private int nrOfAttacks;
+    /**
 	 * Create a player object. It starts with level 1, no items and 4 carry slots
      * Usage - Player();
      * @throws Exception
@@ -40,6 +49,15 @@ public class Player {
         money = 0;
         carryCapacity = 3 + level;
         itemWasGiven = false;
+        monstersKilled = 0;
+        keysUsed = 0;
+        potionsUsed = 0;
+        walkedInWalls = 0;
+        roomsExplored = 0;
+        itemsPickedUp = 0;
+        itemsDropped = 0;
+        damageDealt = 0;
+        damageTaken = 0;        
     }
 	/**
 	 * gives the player a level-up and adjusts all the stats accordingly. it returns a String with the level up text
@@ -171,6 +189,7 @@ public class Player {
      */
     public void takeKey() {
         keys--;
+        addKeysUsed(1);
     }
 	/**
 	 * returns the amount of potions a player posesses
@@ -192,6 +211,7 @@ public class Player {
         if (item == Room.Item.key){
             if (keys > 0){
                 keys--;
+                addItemsDropped(1);
                 return Room.Item.key;
             }
             else{
@@ -201,6 +221,7 @@ public class Player {
         else if(item == Room.Item.potion){
             if (potions > 0){
                 potions--;
+                addItemsDropped(1);
                 return Room.Item.potion;
             }
             else{
@@ -232,23 +253,24 @@ public class Player {
             }
         }
         itemWasGiven = true;
-        switch (item) {
-            case key:
+            addItemsPickedUp(1);
+            switch (item) {
+                case key:
                 keys++;
                 break;
-            case potion:
+                case potion:
                 potions++;
                 break;
-            case bronze:
+                case bronze:
                 money = money + 100;
                 break;
-            case silver:
+                case silver:
                 money = money + 200;
                 break;
-            case gold:
+                case gold:
                 money = money + 500;
                 break;
-        }     
+            }             
         return returnString;
     }
     /**
@@ -335,7 +357,8 @@ public class Player {
     public boolean drinkPotion() {
         if (potions > 0) {
             health = maxhealth;
-            potions = potions - 1;
+            potions = potions - 1; 
+            addPotionsUsed(1);
             return true;
         } else {
             return false;
@@ -406,5 +429,49 @@ public class Player {
      */
     public int getRemainingCarryCapacity() {
         return carryCapacity - keys - potions;
+    }    
+    public void addMonstersKilled(int monstersKilled) {
+        this.monstersKilled += monstersKilled;
+    }
+    public void addKeysUsed(int keysUsed) {
+        this.keysUsed += keysUsed;
+    }
+    public void addPotionsUsed(int potionsUsed) {
+        this.potionsUsed += potionsUsed;
+    }
+    public void addWalkedInWalls(int walkedInWalls) {
+        this.walkedInWalls += walkedInWalls;
+    }
+    public void addRoomsExplored(int roomsExplored) {
+        this.roomsExplored += roomsExplored;
+    }
+    public void addItemsPickedUp(int itemsPickedUp) {
+        this.itemsPickedUp += itemsPickedUp;
+    }
+    public void addItemsDropped(int itemsDropped) {
+        this.itemsDropped += itemsDropped;
+    }
+    public void addDamageDealt(int damageDealt) {
+        this.damageDealt += damageDealt;
+    }
+    public void addDamageTaken(int damageTaken) {
+        this.damageTaken += damageTaken;
+    }
+    public void addNrOfAttacks(int nrOfAttacks) {
+        this.nrOfAttacks += nrOfAttacks;
+    }
+    public String getStatistics(){
+        String text = "";
+        text = text + "Monsters killed: " + monstersKilled;
+        text = text + "\t\tDamage dealt: " + damageDealt;
+        text = text + "\t\tDamage taken: " + damageTaken;
+        text = text + "\t\tNumber of attacks: " + nrOfAttacks;
+        text = text + "\t\tPotions used: " + potionsUsed;
+        text = text + "\t\tKeys used: " + keysUsed;
+        text = text + "\t\tItems picked up: " + itemsPickedUp;
+        text = text + "\t\tItems dropped: " + itemsDropped;
+        text = text + "\t\tWalked in walls: " + walkedInWalls;
+        text = text + "\t\tRooms explored: " + roomsExplored;
+        return text;
     }
 }
