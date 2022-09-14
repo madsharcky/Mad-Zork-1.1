@@ -478,25 +478,27 @@ public class Game {
 				
 				if (direction.equals("back")) { // go to the last visited room
 					for (int i = 0; i < currentRoom.getAdjacentRooms().length; i++) {
-						if (currentRoom.getAdjacentRooms()[i] == null || lastRoom == null) {
+						if (currentRoom.getAdjacentRooms().length == 0 || lastRoom == null) {
 							return "there is no turning back";
 						} else {
-							if (currentRoom.getAdjacentRooms()[i].equals(lastRoom)) {
-								switch (i) {
-									case 0: // north
-										direction = "north";
-										break;
-									case 1: // east
-										direction = "east";
-										break;
-									case 2: // south
-										direction = "south";
-										break;
-									case 3: // west
-										direction = "west";
-										break;
-									default:
-										direction = "eisengard";
+							if (currentRoom.getAdjacentRooms()[i] != null){
+								if (currentRoom.getAdjacentRooms()[i].equals(lastRoom)) {
+									switch (i) {
+										case 0: // north
+											direction = "north";
+											break;
+										case 1: // east
+											direction = "east";
+											break;
+										case 2: // south
+											direction = "south";
+											break;
+										case 3: // west
+											direction = "west";
+											break;
+										default:
+											direction = "eisengard";
+									}
 								}
 							}
 						}
