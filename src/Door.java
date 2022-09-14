@@ -55,7 +55,7 @@ public class Door {
                 break;
             case falle:
                 offen = true;
-                schaden = ThreadLocalRandom.current().nextInt(0, 30 + 1);;
+                schaden = ThreadLocalRandom.current().nextInt(0, 10 + 1);;
                 sichtbar = true;
                 kosten = 0;
                 break;
@@ -127,18 +127,17 @@ public class Door {
      */
     public String springTrap(Player player){
         String returnString = "";
-        int evasion = ThreadLocalRandom.current().nextInt(0, player.getDefense() + 1);
-        if (evasion < schaden) {
-            int damage =schaden - evasion; // check if player gets damage
-            player.takeDamage(damage);
-            returnString ="you Take " + damage + " damage";
+        int evasion = ThreadLocalRandom.current().nextInt(0, 20 + 1) + player.getDefense();
+        if (evasion >= 10){
+            returnString = "You evaded the trap!";
+        }
+        else {
+            player.takeDamage(schaden);
+            returnString = "You got hit by the trap and take "+ schaden + " damage!";
             if (player.getHealth() <= 0) {
-                returnString = returnString
-                        + "\n\nYou are impaled and can not get free! Slowly you bleed out";
-                return returnString;
-            }
-        } else {
-            returnString ="You are lucky and take no damage";
+                returnString = returnString + "\n\nYou are impaled and can not get free! Slowly you bleed out";
+                    return returnString;
+                }
         }
         return returnString;
     }
