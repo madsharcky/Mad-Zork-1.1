@@ -80,14 +80,7 @@ public class Game {
 				System.out.println();
 				// Attack mode
 				if (player.isAttackMode()) {
-					System.out.println(currentEnemy.getAttackMove());
-					int damage = player.defend(currentEnemy.getAttack());
-					if (damage > 0) {
-						System.out.println("You take " + damage + " damage");
-						player.addDamageTaken(damage);
-					} else {
-						System.out.println("You manage to dodge the attack");
-					}
+					System.out.println(getAttacked());					
 				} else {
 					System.out.println(currentRoom.description());
 				}
@@ -673,5 +666,17 @@ public class Game {
 			}
 		}
 		return roomDoorStuck;
+	}
+	private String getAttacked(){
+		String returnString = "";
+		returnString = currentEnemy.getAttackMove();
+		int damage = player.defend(currentEnemy.getAttack());
+		if (damage > 0) {
+			returnString += "\nYou take " + damage + " damage";
+			player.addDamageTaken(damage);
+		} else {
+			returnString += "\nYou block the attack";
+		}
+		return returnString;
 	}
 }
