@@ -42,7 +42,36 @@ public class Game {
 	 */
 	public Game() {
 		parser = new Parser();
-		player = new Player();
+		printWelcome();
+		System.out.print("\033[H\033[2J");
+		System.out.flush();	
+		System.out.println("Chose your class:");
+		System.out.println("1. Warrior");
+		System.out.println("2. Assassin");
+		System.out.println("3. Tank");
+		Scanner input = new Scanner(System.in);
+		System.out.print(">");
+		int classChosen = input.nextInt();	
+		switch (classChosen) {
+		case 1:
+			player = new Player(Player.PlayerClass.Warrior);
+			break;
+		case 2:
+			player = new Player(Player.PlayerClass.Assassin);
+			break;
+		case 3:
+			player = new Player(Player.PlayerClass.Tank);
+			break;
+		default:
+			player = new Player(Player.PlayerClass.Warrior);
+			break;
+		}
+		System.out.println("You chose the " + player.getPlayerClass() + " class!");
+		System.out.println();
+		System.out.println("press enter to continue");
+		Scanner input1 = new Scanner(System.in);
+		input1.nextLine();
+
 		currentRoom = new Room(player);	// set starting room
 		if (isPlayerStuck()){
 			Iterator<Map.Entry<String, Door>> iterator = currentRoom.getDoors().entrySet().iterator();
@@ -70,7 +99,6 @@ public class Game {
 	 * @throws Exception
 	 */
 	public void play() {
-		printWelcome();
 		while (!finished) {
 			if (player.getHealth() > 0) {
 				System.out.print("\033[H\033[2J");
@@ -78,7 +106,6 @@ public class Game {
 				System.out.println(player.getStats());
 				System.out.println();
 				System.out.println();
-				// Attack mode
 				if (player.isAttackMode()) {
 					System.out.println(getAttacked());					
 				} else {
@@ -278,7 +305,7 @@ public class Game {
 	private String retreat() {
 		String returnString = "You close your eyes and turn in circles. After a while you start running forward.";
 		String direction = "";
-		int intDirection = getRandomNumber(1, 4);
+		int intDirection = ThreadLocalRandom.current().nextInt(1, 4 + 1);
 		switch (intDirection) {
 			case 1:
 				direction = "north";
@@ -318,57 +345,6 @@ public class Game {
 	}
 
 	/**
-	 * returns a random number between a lower and an upper bound
-	 * Usage - getRandomNumber(12, 20);
-	 * 
-	 * @param lowerBound - int
-	 * @param upperBound - int
-	 * @return - int
-	 * @throws Exception
-	 */
-	private int getRandomNumber(int lowerBound, int upperBound) {
-		int randomNumber = ThreadLocalRandom.current().nextInt(lowerBound, upperBound + 1);
-		return randomNumber;
-	}
-
-	/**
-	 * Attack an enemy
-	 * Returns the resulting action as a string.
-	 * Usage - attackEnemy();
-	 * 
-	 * @return - String
-	 * @throws Exception
-	 */
-	private String attackEnemy() {
-		if (player.isAttackMode()) {
-			attackCount++;
-			String returnString = "you swing your sword at the enemy";
-			int damage = currentEnemy.defend(player.getAttack());
-			player.addDamageDealt(damage);
-			if (currentEnemy.getHealth() > 0) {
-				returnString = returnString + "\nyou do " + damage + " damage";
-				returnString = returnString + "\nit has " + currentEnemy.getHealth() + " health left.";
-			} else {
-				currentRoom.killEnemy(currentEnemy);
-				player.setAttackMode(false);
-				returnString = returnString + "\nYour sword finnaly cuts off the " + currentEnemy.getType().toString()
-						+ "'s' head";
-				returnString = returnString + player.giveXp(currentEnemy.getXp(attackCount));
-				player.addNrOfAttacks(attackCount);
-				player.addMonstersKilled(1);
-				attackCount = 0;
-				if (player.getHealth() <= 0) {
-					player.setHealth(1);
-					returnString = returnString + "\nthrough sheer willpower you manage to barely stay alive";
-				}
-			}
-			return returnString;
-		} else {
-			return "there is nothing to attack";
-		}
-	}
-
-	/**
 	 * Explores the room. If there are enemies, they will attack you
 	 * Returns the resulting action as a string.
 	 * Usage - exploreRoom();
@@ -383,20 +359,76 @@ public class Game {
 			return "You cant explore now! You are in the middle of a fight!!!!!";
 		} else {
 			if (currentEnemy == null) { // no enemies are in the room
-				currentRoom.setExplored(true);
-				player.addRoomsExplored(1);
+				if (currentRoom.isExplored()){
+					returnString = "You have already explored this room";
+				}
+				else{
+					returnString = "You explore the room and find nothing of interest";
+					currentRoom.setExplored(true);
+					player.addRoomsExplored(1);
+				}
 				if (!currentRoom.containsItem()) {
-					returnString = "there is nothing more to find here";
+					returnString = "There is nothing more to find here";
 				} else {
 					returnString = player.giveItem(currentRoom.getItems(), currentRoom);
 				}
 			} else {
 				player.setAttackMode(true);
-				returnString = "you woke up a monster from its sleep.\nslowly the " + currentEnemy.getType().toString()
+				returnString = "You woke up a monster from its sleep.\nslowly the Level " + currentEnemy.getLevel() + " " + currentEnemy.getType().toString()
 						+ " moves towards you";
 			}
 		}
 		return returnString;
+	}
+
+	private String getAttacked(){
+		String returnString = "";
+		returnString = currentEnemy.getAttackMove();
+		int damage = player.defend(currentEnemy);
+		if (damage > 0) {
+			returnString += "\nYou take " + damage + " damage";
+			player.addDamageTaken(damage);
+		} else {
+			returnString += "\nYou block the attack";
+		}
+		return returnString;
+	}
+
+	/**
+	 * Attack an enemy
+	 * Returns the resulting action as a string.
+	 * Usage - attackEnemy();
+	 * 
+	 * @return - String
+	 * @throws Exception
+	 */
+	private String attackEnemy() {
+		if (player.isAttackMode()) {
+			attackCount++;
+			String returnString = "you swing your sword at the enemy";
+			int damage = currentEnemy.defend(player);
+			player.addDamageDealt(damage);
+			if (currentEnemy.getHealth() > 0) {
+				returnString = returnString + "\nyou do " + damage + " damage";
+				returnString = returnString + "\nit has " + currentEnemy.getHealth() + " health left.";
+			} else {
+				currentRoom.killEnemy(currentEnemy);
+				player.setAttackMode(false);
+				returnString = returnString + "\nYour sword finnaly cuts off the " + currentEnemy.getType().toString()
+						+ "'s head";
+				returnString = returnString + player.giveXp(currentEnemy.getXp(attackCount));
+				player.addNrOfAttacks(attackCount);
+				player.addMonstersKilled(1);
+				attackCount = 0;
+				if (player.getHealth() <= 0) {
+					player.setHealth(1);
+					returnString = returnString + "\nThrough sheer willpower you manage to barely stay alive";
+				}
+			}
+			return returnString;
+		} else {
+			return "there is nothing to attack";
+		}
 	}
 
 	/**
@@ -666,17 +698,5 @@ public class Game {
 			}
 		}
 		return roomDoorStuck;
-	}
-	private String getAttacked(){
-		String returnString = "";
-		returnString = currentEnemy.getAttackMove();
-		int damage = player.defend(currentEnemy.getAttack());
-		if (damage > 0) {
-			returnString += "\nYou take " + damage + " damage";
-			player.addDamageTaken(damage);
-		} else {
-			returnString += "\nYou block the attack";
-		}
-		return returnString;
 	}
 }

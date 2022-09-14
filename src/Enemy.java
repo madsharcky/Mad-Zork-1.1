@@ -38,29 +38,29 @@ public class Enemy {
         firstAttack = true;
         switch (type) {
             case OwlbearSkeleton:
-                health = 50 * level;
-                attack = 20 * level;
-                defense = 10 * level;
+                health = 3 * level;
+                attack = 2 + level;
+                defense = level;
                 break;
             case WolfSkeleton:
-                health = 20 * level;
-                attack = 10 * level;
-                defense = 10 * level;
+                health = 10 * level;
+                attack = level;
+                defense = level;
                 break;
             case BugbearZombie:
-                health = 100 * level;
-                attack = 10 * level;
-                defense = 20 * level;
+                health = 10 * level;
+                attack = level - 1;
+                defense = 2 + level;
                 break;
             case HumanZombie:
-                health = 10 * level;
-                attack = 10 * level;
-                defense = 10 * level;
+                health = level;
+                attack = level;
+                defense = level;
                 break;
             case Ghoul:
-                health = 50 * level;
-                attack = 10 * level;
-                defense = 10 * level + 1;
+                health = 5 * level;
+                attack = level;
+                defense = 1 + level;
                 break;
         }
     }
@@ -79,6 +79,22 @@ public class Enemy {
         return randomNumber;
     }
 
+	/**
+	 * returns a random number depending on how many sides the dice has
+     * Usage - getDiceRoll(20);
+     * Usage - getDiceRoll();
+     * @param nrOfSides -int
+	 * @return - int
+     * @throws Exception
+     */
+    private int getDiceRoll(int nrOfSides) {
+        int randomNumber = ThreadLocalRandom.current().nextInt(1, nrOfSides + 1);
+        return randomNumber;
+    }
+    private int getDiceRoll() {
+        int randomNumber = ThreadLocalRandom.current().nextInt(1, 20 + 1);
+        return randomNumber;
+    }
     /**
      * Return a random string from an array of attackmoves. the type is selected
      * automatically
@@ -113,7 +129,7 @@ public class Enemy {
                 return attackMovesB[random.nextInt(attackMovesB.length)];
             case HumanZombie:
                 String attackMovesH[] = {
-                        "It bite you"
+                        "It bites you"
                 };
                 return attackMovesH[random.nextInt(attackMovesH.length)];
             case Ghoul:
@@ -162,41 +178,36 @@ public class Enemy {
         return attack;
     }
 
-    /**
-     * Return the attack damage of the enemy after it was probed against the
-     * defenders defence
-     * Usage - attack(10);
-     * 
-     * @param defenseToOvercome - int
-     * @return - int
+     /**
+	 * returns the damage made
+     * Usage - attack();
+     * @return -int
      * @throws Exception
      */
-    public int attack(int defenseToOvercome) {
-        int hitchance = getRandomNumber(level, attack);
-        if (hitchance > defenseToOvercome) {
-            return attack;
-        } else {
-            return 0;
-        }
+    public int attack() {
+        int attack = getDiceRoll() + this.attack;
+        return attack;
     }
 
     /**
-     * Return the attack damage done after it was probed against the monsters
-     * defence
-     * Usage - defend(10);
-     * 
-     * @param attackToParry - int
-     * @return - int
+	 * returns the damage taken after defending
+     * Usage - defend(20);
+     * @param attackDamage - int
+     * @return -int
      * @throws Exception
      */
-    public int defend(int attackToParry) {
-        int damage = 0;
-        int parrychance = getRandomNumber(level, defense);
-        if (parrychance < attackToParry) {
-            damage = attackToParry - parrychance;
-            health = health - damage;
+    public int defend(Player player) {
+        int attackChance = player.attack();
+        int defense = getDiceRoll() + this.defense;
+        //TODO remove syso
+        System.out.println("Your attack chance is: " + attackChance + " and the defense of the " + type.toString() + " is: " + defense);
+        if (defense < attackChance) {
+            health = health - player.getAttack();
+            return player.getAttack();
         }
-        return damage;
+        else{
+            return 0;
+        }
     }
 
     /**

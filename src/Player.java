@@ -33,22 +33,44 @@ public class Player {
     private int damageDealt;
     private int damageTaken;
     private int nrOfAttacks;
+    public  enum PlayerClass {
+        Warrior,
+        Assassin,
+        Tank
+    }
+    private PlayerClass playerClass;
     /**
 	 * Create a player object. It starts with level 1, no items and 4 carry slots
      * Usage - Player();
      * @throws Exception
      */
-    public Player() {
+    public Player(PlayerClass playerClass) {
+        this.playerClass = playerClass;
+        switch (playerClass){
+            case Warrior:
+            maxhealth = 20;
+            attack = 2;
+            defense = 2;
+            carryCapacity = 2;
+            break;
+            case Assassin:
+            maxhealth = 15;
+            attack = 3;
+            defense = 1;
+            carryCapacity = 1;
+            break;
+            case Tank:
+            maxhealth = 25;
+            attack = 1;
+            defense = 3;
+            carryCapacity = 3;
+            break;
+        }   
         level = 1;
-        maxhealth = 100 * level;
         health = maxhealth;
-        attack = 20 * level;
-        defense = 10 * level;
         keys = 0;
         potions = 0;
         money = 0;
-        carryCapacity = 3 + level;
-        itemWasGiven = false;
         monstersKilled = 0;
         keysUsed = 0;
         potionsUsed = 0;
@@ -58,6 +80,7 @@ public class Player {
         itemsDropped = 0;
         damageDealt = 0;
         damageTaken = 0;        
+        itemWasGiven = false;
     }
 	/**
 	 * gives the player a level-up and adjusts all the stats accordingly. it returns a String with the level up text
@@ -65,27 +88,60 @@ public class Player {
 	 * @return - String
      * @throws Exception
      */
-    private String giveLevel() {
+    private void levelUp() {
+        boolean invalidInput = true;
         level++;
-        attack = 20 * level;
-        defense = 20 * level;
-        health = (((health*100)/maxhealth)*(100*level))/100;
-        maxhealth = 100 * level;
-        carryCapacity = 3 + level;
-        return "\nLevel up!\nYou are now level " + level;
+        System.out.println("\n\nYou leveled up!");
+        System.out.println("You are now level " + level);
+        while (invalidInput){
+            System.out.println("Where do you want to put your stat points?");
+            System.out.println("1. Health");
+            System.out.println("2. Attack");
+            System.out.println("3. Defense");
+            System.out.println("4. Carry Capacity");
+            Scanner scanner = new Scanner(System.in);
+            System.out.print(">");
+            String choice = scanner.next();
+            switch (choice) {
+                case "1" , "Health":
+                    maxhealth += 10;
+                    health = (int) (((double) health / (double) maxhealth) * (double) maxhealth);
+                    invalidInput = false;
+                    break;
+                case "2" , "Attack":
+                    attack += 1;
+                    invalidInput = false;
+                    break;
+                case "3" , "Defense":
+                    defense += 1;
+                    invalidInput = false;
+                    break;
+                case "4" , "Carry Capacity":
+                    carryCapacity += 1;
+                    invalidInput = false;
+                    break;
+                default:
+                    System.out.println("Invalid input");
+            }
+        }
     }
 	/**
-	 * returns a random number between a lower and an upper bound
-     * Usage - getRandomNumber(0, 20);
-     * @param lowerBound -int
-     * @param upperBound -int
+	 * returns a random number depending on how many sides the dice has
+     * Usage - getDiceRoll(20);
+     * Usage - getDiceRoll();
+     * @param nrOfSides -int
 	 * @return - int
      * @throws Exception
      */
-    private int getRandomNumber(int lowerBound, int upperBound) {
-        int randomNumber = ThreadLocalRandom.current().nextInt(lowerBound, upperBound + 1);
+    private int getDiceRoll(int nrOfSides) {
+        int randomNumber = ThreadLocalRandom.current().nextInt(1, nrOfSides + 1);
         return randomNumber;
     }
+    private int getDiceRoll() {
+        int randomNumber = ThreadLocalRandom.current().nextInt(1, 20 + 1);
+        return randomNumber;
+    }
+
     public int getMoney() {
         return money;
     }
@@ -376,7 +432,7 @@ public class Player {
         xp = xp + amount;
         if (xp >= level * 100) {
             xp = xp - level * 100;
-            returnString = returnString + giveLevel();
+            levelUp();
         }
         return returnString;
     }
@@ -412,14 +468,44 @@ public class Player {
      * @return -int
      * @throws Exception
      */
-    public int defend(int attackDamage) {
-        int damage = 0;
-        int defense = getRandomNumber(level, this.defense);
-        if (defense < attackDamage) {
-            damage = attackDamage - defense;
-            health = health - damage;
+    public int defend(Enemy enemy) {
+        int attackChance = enemy.attack();
+        int diceRoll = getDiceRoll();
+        int defense = diceRoll + this.defense;
+        if (diceRoll == 20){
+            defense = defense * 2;
         }
-        return damage;
+        else if (diceRoll == 1){
+            defense = 0;
+        }
+        //TODO remove syso
+        System.out.println("Your defence chance is: " + defense + " and the " + enemy.getType() + "'s attack chance is: " + attackChance);
+        if (defense < attackChance) {
+            health = health - enemy.getAttack();
+            return enemy.getAttack();
+        }
+        else{
+            return 0;
+        }
+    }
+    /**
+	 * returns the damage made
+     * Usage - attack();
+     * @return -int
+     * @throws Exception
+     */
+    public int attack() {
+        int diceRoll = getDiceRoll();
+        int attack = diceRoll + this.attack;
+        if (diceRoll == 20) {
+            return 2 * attack;
+        } 
+        else if(diceRoll == 1){
+            return 0;
+        }
+        else {
+            return attack;
+        }
     }
     /**
 	 * returns the remaining carry capacity
@@ -473,5 +559,8 @@ public class Player {
         text = text + "\t\tWalked in walls: " + walkedInWalls;
         text = text + "\t\tRooms explored: " + roomsExplored;
         return text;
+    }
+    public PlayerClass getPlayerClass() {
+        return playerClass;
     }
 }

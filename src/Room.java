@@ -90,7 +90,7 @@ public class Room {
 		makeDoors();
 
 		int maxAmount = 0;
-		if (player.getHealth() < player.getMaxhealth()*0.25){
+		if (player.getHealth() < player.getMaxhealth() * 0.25){
 			maxAmount = 1;
 		}
 		else if (player.getHealth() < player.getMaxhealth()*0.5){
@@ -102,6 +102,7 @@ public class Room {
 		int randomEnemyAmount = ThreadLocalRandom.current().nextInt(0, maxAmount + 1);
 		enemies = new Enemy[randomEnemyAmount];
 		setEnemies(randomEnemyAmount, player.getLevel());		
+
 		if (player.getHealth() < player.getMaxhealth()*0.25){
 			maxAmount = 4;
 		}
@@ -155,18 +156,10 @@ public class Room {
      * @throws Exception
      */
 	private void setItems(int amount) {
-		if (amount > 0) {
-			if (playerKeys < 1) {
-				items.add(Item.key);
-				for (int i = 1; i < amount; i++) {
-					Item item = selectRandomItem();
-					items.add(item);
-				}
-			} else {
-				for (int i = 0; i < amount; i++) {
-					Item item = selectRandomItem();
-					items.add(item);
-				}
+		if (amount > 0) {			
+			for (int i = 0; i < amount; i++) {
+				Item item = selectRandomItem();
+				items.add(item);				
 			}
 		}
 	}
