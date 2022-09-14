@@ -113,7 +113,7 @@ public class Enemy {
                 return attackMovesB[random.nextInt(attackMovesB.length)];
             case HumanZombie:
                 String attackMovesH[] = {
-                        "It tries to byte you"
+                        "It bite you"
                 };
                 return attackMovesH[random.nextInt(attackMovesH.length)];
             case Ghoul:
