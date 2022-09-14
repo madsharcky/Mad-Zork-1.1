@@ -30,7 +30,7 @@ public class Player {
      * @throws Exception
      */
     public Player() {
-        level = 1;
+        level = 10;
         maxhealth = 100 * level;
         health = maxhealth;
         attack = 20 * level;
@@ -228,7 +228,7 @@ public class Player {
             if (getRemainingCarryCapacity() > 0) {
                 returnString = item.toString();
             } else {
-                return "You carry too much on your belt. drop a key or potion to free up space";
+                return "";
             }
         }
         itemWasGiven = true;
@@ -279,18 +279,25 @@ public class Player {
 
             if(answer.equals("everything")||answer.equals("all")){
                 ListIterator<Room.Item> iterator = items.listIterator();
+                int oldSize = items.size();
+                returnString = "You have picked up the following items: ";
                 while(iterator.hasNext()){
                     Room.Item item = iterator.next();
-                    returnString = recieveItem(item);
-                    if (itemWasGiven){
-                        iterator.remove();
+                    String itemString = recieveItem(item);
+                    if (itemString != ""){
+                        returnString += itemString +", ";
+                        if (itemWasGiven){
+                            iterator.remove();
+                        }
                     }
                 }
-                if (itemWasGiven){
-                    returnString = "You pick up all the items";
+                if (items.size() == 0){
+                    returnString = "You have picked up all items";
                 }
-                
-            }
+                else if (items.size() == oldSize){
+                    returnString = "You have not picked up any items. Please make room in your inventory using the drop command.";
+                }
+            }                           
             else if(answer.equals("nothing") || answer.length()<=0 || answer.equals("no")){
                 return "You leave it all behind and turn around";
             }
@@ -298,6 +305,7 @@ public class Player {
                 Boolean wrongItem = true;
                 returnString = "You pick up a ";
                 ListIterator<Room.Item> iterator = items.listIterator();
+                int oldSize = items.size();
                     while(iterator.hasNext()){
                         Room.Item item = iterator.next();
                         if (item.toString().equals(answer)){
@@ -311,6 +319,9 @@ public class Player {
                     }
                 if (wrongItem){
                     returnString = "You can not pick up a " + answer + ". It seems to you that no matter how long you look in the box you will not find a "+answer;
+                }
+                else if (items.size() == oldSize){
+                    returnString = "You have not picked up any items. Please make room in your inventory using the drop command.";
                 }
             }    
         return returnString;
