@@ -39,7 +39,7 @@ public class Player {
      * @throws Exception
      */
     public Player() {
-        level = 10;
+        level = 1;
         maxhealth = 100 * level;
         health = maxhealth;
         attack = 20 * level;
