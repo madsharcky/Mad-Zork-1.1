@@ -104,8 +104,8 @@ public class Player {
             String choice = scanner.next();
             switch (choice) {
                 case "1" , "Health":
+                    health = (int) (((double) health / (double) maxhealth) * (double) maxhealth+10);
                     maxhealth += 10;
-                    health = (int) (((double) health / (double) maxhealth) * (double) maxhealth);
                     invalidInput = false;
                     break;
                 case "2" , "Attack":
