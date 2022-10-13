@@ -15,6 +15,7 @@
  * to the neighbouring room, or null if there is no exit in that direction.
  */
 
+import java.security.KeyStore.Entry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -190,22 +191,22 @@ public class Room {
 		for(int i = 0; i < 4; i++){
 			randomnumber = ThreadLocalRandom.current().nextInt(0, 1 + 1);
 			switch (i){
-				case 1:
+				case 0:
 					if (randomnumber == 1){
 						doorTypeNorth = selectRandomDoorType();
 					}
 					break;
-				case 2:
+				case 1:
 					if (randomnumber == 1){
 						doorTypeEast = selectRandomDoorType();
 					}
 					break;
-				case 3:
+				case 2:
 					if (randomnumber == 1){
 						doorTypeSouth = selectRandomDoorType();
 					}
 					break;
-				case 4:
+				case 3:
 					if (randomnumber == 1){
 						doorTypeWest = selectRandomDoorType();
 					}
@@ -359,17 +360,22 @@ public class Room {
 		}
 	}
 	/**
-	 * Return the door wich lies in a given direction
-	 * If there is no door in that direction, return null.
+	 * Return the direction where a given door is located
 	 * Usage - doorToPass(door2t7);
 	 * @param direction - String
 	 * @return - Door
      */
-	public Door doorToPass(String direction) {
+	public String doorToPass(Door door) {
 		try {
-			return doors.get(direction);
+			String direction = "";
+			for (String key : doors.keySet()) {
+				if (doors.get(key) == door) {
+					direction = key;
+				}
+			}	
+			return direction;		
 		} catch (Exception e) {
-			return null;
+			return "";
 		}
 	}
 	/**

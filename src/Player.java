@@ -40,7 +40,7 @@ public class Player {
     }
     private PlayerClass playerClass;
     /**
-	 * Create a player object. It starts with level 1, no items and 4 carry slots
+	 * Create a player object. It starts with level 1 and no items
      * Usage - Player();
      * @throws Exception
      */
